@@ -1,0 +1,1123 @@
+\documentclass{book}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{geometry}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{listings}
+\usepackage{hyperref}
+\usepackage{geometry}
+\DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator{\vspan}{span}
+\hypersetup{
+colorlinks=true,
+linkcolor=blue,
+filecolor=magenta,      
+urlcolor=magenta,
+pdfpagemode=FullScreen,
+}
+\geometry{legalpaper, margin=2cm}
+\newcounter{example}[subsection]
+\newenvironment{example}[1][\unskip]{
+    \refstepcounter{example}
+    \textcolor{Blue}{
+    \subsubsection{Example \theexample:}}#1 
+    \vspace{0.1ex} 
+}{
+}
+\definecolor{light-gray}{gray}{0.95}
+\newcommand{\apilink}[2]{
+   \colorbox{light-gray}{\texttt{#1}}
+    (\href{#2}{API link})
+}
+\newcommand{\determinant}[1]{
+    \det \left( #1 \right)
+}
+\newcommand{\setb}[2]{
+\{#1 \mid #2 \}
+}
+\newenvironment{matlab}{
+\textcolor{red}{
+\subsubsection{Matlab}}\vspace{0.2ex}}{}
+
+\title{Arutomatisierung, Regelungtechnik}
+\author{Kristóf Cserpes}
+\begin{document}
+\maketitle
+\tableofcontents
+\chapter{Linear Maps}
+\section{Vector spaces}
+A vector space over a field \(F\) is a set \(V\) that is closed under vector addition (+) and scalar multiplication (\( \cdot \)). A vecotr space must fulfill following axioms:
+\begin{align}
+    \begin{split}
+        v, w, u \in V \\
+        \alpha, \beta \in F \\
+        v + w = u  \\
+        \alpha \cdot v = u \\
+        (\alpha \cdot \beta) \cdot v = \alpha \cdot (\beta \cdot v)      \\
+        \alpha (v + w) = \alpha \cdot v + \alpha \cdot w              \\
+        (\alpha + \beta) \cdot w = \alpha \cdot v + \beta \cdot w \\
+        1 \cdot v = w
+    \end{split}
+\end{align}
+The vector addition \((V,+)\) form a commutative group.
+\begin{align*}
+    (v + w) + u = v + (w + z) \tag*{Associativity} \\
+    v + 0 = V \tag*{Identity element: zero vector} \\
+    v + w = 0 \tag*{Inverse element}               \\
+    v + w  = w + v \tag*{Commutativity}            \\
+\end{align*}
+\( (F, +, \cdot)\) form a field.
+\begin{align*}
+    a, a^{-1}, b, c \in F                                                         \\
+    (a + b) + c = a + (b + c) \tag*{Additive associativity}                       \\
+    a + a^{-1} = 0 \tag*{Additive inverse}                                        \\
+    a + 0 = a \tag*{Additive identity}                                            \\
+    a + b = b + a \tag*{Additive commutativity}                                   \\
+    (a \cdot b) \cdot c = a \cdot (b \cdot c)  \tag*{Mulitlicative associativity} \\
+    a \cdot a^{-1} = 1, a^{-1} \neq 0 \tag*{Mulitlicative inverse}                \\
+    a  \cdot 1 = a \tag*{Multiplicative identity}                                 \\
+    a \cdot b = b \cdot a \tag*{Mulitplicative commutativity}                     \\
+    a \cdot (b + c) = a\cdot b + \cdot c \tag*{Distibutivity}
+\end{align*}
+Example for fields: \((\mathbb{R}, +, \cdot)\) \( (\mathbb{C}, +, \cdot)\) \\
+Example for non fields: \((\mathbb{N}, +, \cdot)\) \( (\mathbb{Z}, +, \cdot)\) \\
+\subsection{Subspace}
+Let \(V\) be a vector space ofer a field \(F\). A subspace \(W\) is a subset of \(V\) that also form a vector space over \(F\).
+\begin{example}
+    \(\mathbb{R}^2\) is a vector space over \(\mathbb{R}\).
+    \begin{align*}
+        W = \setb{c \cdot \begin{bmatrix}
+                1 \\2
+            \end{bmatrix}
+        }{c \in \mathbb{R}} = \{ \dots \begin{bmatrix}
+            -1 \\ -2
+        \end{bmatrix}, \begin{bmatrix}
+            1 \\2
+        \end{bmatrix}, \begin{bmatrix}
+            2 \\4
+        \end{bmatrix},\begin{bmatrix}
+            2.4 \\ 4.8
+        \end{bmatrix} \dots
+        \}
+    \end{align*}
+\end{example}
+\subsection{Span, (lineare Hülle)}
+Let \(V\) be a vector space ofer a field \(F\) and \(S\) a finite subset of \(V\) wiht length \(n\). The span of \(S\) is the set of vectors that can be created by linear combinations with the vectors in \(S\).
+\begin{equation}
+    span(S) = \setb{
+        \sum_{i=1}^{n} a_i \cdot s_i
+    }{n \in \mathbb{N}, a_i \in F, s_i \in S}
+\end{equation}
+\begin{example}
+    \begin{align*}
+        S        & = \{
+        \begin{bmatrix}
+            1 \\ 0 \\ 0
+        \end{bmatrix},
+        \begin{bmatrix}
+            0 \\ 1 \\ 0
+        \end{bmatrix}
+        \}                   \\
+        \vspan S & =  \setb{
+            a_1
+            \begin{bmatrix}
+                1 \\ 0 \\ 0
+            \end{bmatrix} + a_2
+            \begin{bmatrix}
+                0 \\ 1 \\ 0
+            \end{bmatrix}
+            \
+        }{a_1, a_2 \in \mathbb{R}}
+    \end{align*}
+\end{example}
+\subsubsection{Spanning set}
+Let \(V\) be a vector space ofer a field \(F\) and \(S\) a finite subset of \(V\). \(S\) is a spanning set of if
+\begin{equation}
+    \vspan S = V
+\end{equation}
+\begin{example}
+    Let \(V\) be \(\mathbb{R}^2\) over the field \(\mathbb{R}\). Following subsets are spanning set of \(V\):
+    \begin{align*}
+        S_1 & = \{ \begin{bmatrix}
+            1 \\ 0
+        \end{bmatrix},
+        \begin{bmatrix} 0 \\ 1 \end{bmatrix}
+        \}                                     \\
+        S_2 & = \{ \begin{bmatrix}
+            3 \\ 0
+        \end{bmatrix},
+        \begin{bmatrix} 0 \\ 2 \end{bmatrix}
+        \}                                     \\
+        S_3 & = \{ \begin{bmatrix}
+            3 \\ 0
+        \end{bmatrix},
+        \begin{bmatrix} 0 \\ 2 \end{bmatrix},
+        \begin{bmatrix} 1 \\ 2 \end{bmatrix}
+        \}
+    \end{align*}
+\end{example}
+\subsection{Base}
+Let \(V\) be a vector space ofer a field \(F\) and \(B\) a spanning set of \(V\). If the elements of \(B\) are lineary independent then \(B\) is called a basis.
+The coefficients of the linear combination are referred to as components or coordinates of the vector with respect to \(B\).
+The elements of \(B\) are called basis vectors.
+\begin{example}
+    Let \(V\) be \(\mathbb{R}^2\) over the field \(\mathbb{R}\). Following subsets are spanning set of \(V\):
+    \begin{align*}
+        B_1 & = \{ \begin{bmatrix}
+            1 \\ 0
+        \end{bmatrix},
+        \begin{bmatrix} 0 \\ 1 \end{bmatrix}
+        \}                                     \\
+        B_2 & = \{ \begin{bmatrix}
+            3 \\ 0
+        \end{bmatrix},
+        \begin{bmatrix} 0 \\ 2 \end{bmatrix}
+        \}                                     \\
+    \end{align*}
+    In previous example \(S_3\) is not a valid base, because its elements are lineary dependent.
+\end{example}
+\subsubsection{Standard base}
+A base \(B\) is called a Standard base if the vecotors of \(B\) are all zero, except one that equals 1. The vectors
+of the standard base are called unit vectors.
+\begin{example}
+    The standard base for \(\mathbb{R}^n\) is
+    \begin{align*}
+        \hat{i} & = \begin{bmatrix}
+            1 \\ 0 \\ 0
+        \end{bmatrix}, \hat{j} = \begin{bmatrix}
+            0 \\ 1 \\ 0
+        \end{bmatrix}, \hat{k} = \begin{bmatrix}
+            0 \\ 0 \\ 1
+        \end{bmatrix} \\
+        B       & = \{ \hat{i}, \hat{j}, \hat{k} \}
+    \end{align*}
+    A vector \(v\) expressed in the standard basis \(B\).
+    \begin{align*}
+        v = \begin{bmatrix}
+            4 \\ 5 \\ 6
+        \end{bmatrix}= 4 \hat{i} + 5  \hat{j} + 6  \hat{k}
+    \end{align*}
+\end{example}
+\subsection{Dimension}\label{dimension}
+The dimension \( \dim \) of a vector space is the size of its base \(B\). The dimension
+is equal to the rank (see \ref{rank}) of the tranformation matrix.
+\begin{example}
+    The vector space \(\mathbb{R}^n\)
+    \begin{align*}
+        \dim \mathbb{R}^n = n
+    \end{align*}
+\end{example}
+\begin{example}
+    \begin{align*}
+        V      & = \setb{
+            c_1
+            \begin{bmatrix}
+                1 \\ 0 \\ 0 \\ 0
+            \end{bmatrix},
+            c_2
+            \begin{bmatrix}
+                0 \\ 1 \\ 0 \\ 0
+            \end{bmatrix}
+        }{c_1, c_2 \in \mathbb{R}} \\
+        \dim V & = 2
+    \end{align*}
+\end{example}
+\begin{example}
+    \begin{align*}
+        V      & = \setb{
+            c_1
+            \begin{bmatrix}
+                1 \\ 1 \\ 0 \\ 0
+            \end{bmatrix},
+            c_2
+            \begin{bmatrix}
+                0 \\ 1 \\ 0 \\ 0
+            \end{bmatrix}
+        }{c_1, c_2 \in \mathbb{R}} \\
+        \dim V & = 1
+    \end{align*}
+\end{example}
+\begin{example}
+    The only vector space with dimension 0 is where V contains only the zero vector.
+    \begin{align*}
+        \dim \{ \begin{bmatrix} 0 \\ 0 \\ 0 \end{bmatrix}\} = 0
+    \end{align*}
+\end{example}
+\clearpage
+\section{Linear maps}
+Let \(V\) \(W\) be vector spaces over the same field \(F\).
+A function \(f: V \rightarrow W\) is said to be a linear map if for any two vectors \(v, u \in V\) and any scalar \(c \in F\) the following two conditions are satisfied:
+\begin{align}
+    f(u + v)     & = f(u) + f(v) \tag{Additvity} \\
+    f(c \cdot u) & = c \cdot u \tag{Homogenity}
+\end{align}
+\subsection{Transformation matrix}
+Each linear transformation can be represented as a matrix vector multiplication.
+\begin{align*}
+    f      & : W \rightarrow V  \\
+    \dim W & = n, \dim V = m    \\
+    f(x)   & = A^{m \times n} x \\
+\end{align*}
+\begin{example}
+    \begin{align*}
+        f(x)                                       &
+        = \begin{bmatrix}
+            1 & 2 & 3 \\ 5 & 7 & 9
+        \end{bmatrix} \begin{bmatrix}
+            x_1 \\ x_2 \\ x_3
+        \end{bmatrix}                   \\
+        f \left(\begin{bmatrix}
+            5 \\ 6 \\ 7
+        \end{bmatrix} \right) & = \begin{bmatrix}
+            38 \\ 130
+        \end{bmatrix}
+    \end{align*}
+\end{example}
+\subsubsection{Composition}
+If there are two linear maps \(f, g\) wiht tranformation matrices:
+\begin{align*}
+    f : V \rightarrow W  = Ax \\
+    g : U \rightarrow V = Bx
+\end{align*}
+then the compostition is:
+\begin{align*}
+    h : U \rightarrow W = f \circ g \\
+    h(x) = A(Bx) = (A \cdot B)x
+\end{align*}
+\begin{example}
+    \begin{align*}
+        f(x)                                        & = \begin{bmatrix}
+            1 & 2 & 3 \\ 5 & 7 & 9
+        \end{bmatrix} \cdot x                                                                             \\
+        g(x)                                        & = \begin{bmatrix}
+            -1 & -2 \\ -7 & -9 \\ 13 & 17
+        \end{bmatrix} \cdot x                                                                             \\
+        h(x)                                        & = f \circ g = \begin{bmatrix}
+            1 & 2 & 3 \\ 5 & 7 & 9
+        \end{bmatrix} \begin{bmatrix}
+            -1 & -2 \\ -7 & -9 \\ 13 & 17
+        \end{bmatrix} \cdot x = \begin{bmatrix}
+            24 & 31 \\ 64  & 80
+        \end{bmatrix} \cdot x \\
+        g \left( \begin{bmatrix}
+            3 \\ 4
+        \end{bmatrix} \right) & = \begin{bmatrix}
+            -11 \\ -57 \\ 107
+        \end{bmatrix}, f \left( \begin{bmatrix}
+            -11 \\ -57 \\ 107
+        \end{bmatrix} \right) = \begin{bmatrix}
+            196 \\ 509
+        \end{bmatrix}           \\
+        h(\begin{bmatrix}
+            3 \\ 4
+        \end{bmatrix})               & = \begin{bmatrix}
+            196 \\ 509
+        \end{bmatrix}
+    \end{align*}
+\end{example}
+\subsection{Image (Bild)}
+The image \(f^{\rightarrow}\) of a tranformation \(L: V \rightarrow W \) is the set of vectors that the tranformation can produce.
+\begin{equation}
+    f^{\rightarrow} (L)  = \setb{L(x)}{x \in V}
+\end{equation}
+The image is the columnspan of the tranformation matrix.
+\begin{example}
+    \begin{align*}
+        L(x)                & = \begin{bmatrix}
+            1 & 0 \\
+            0 & 1 \\
+        \end{bmatrix}x \\
+        f^{\rightarrow} (L) & = \mathbb{R}^2
+    \end{align*}
+\end{example}
+\begin{example}
+    \begin{align*}
+        L(x)                & = \begin{bmatrix}
+            1 & 0 \\
+            2 & 0 \\
+            1 & 1 \\
+            0 & 2 \\
+        \end{bmatrix}x      \\
+        f^{\rightarrow} (L) & = \setb{\begin{bmatrix}
+                c_1 \\ 2c_1 \\ c_1 + c_2 \\ 2 c_2
+            \end{bmatrix}
+        }{c_1, c_2 \in \mathbb{R}}
+    \end{align*}
+\end{example}
+\subsection{Kernel, Null Space (Kern)}\label{kernel}
+The kernel of a linear map \(L: V \rightarrow W \) is the linear subspace of the domain of the map which is mapped to the zero vector.
+\begin{equation}
+    \ker L = \{ v \in V | L(v) = 0 \} \\
+\end{equation}
+
+The vecots of the kernel are the set of vectors that yield the zero vector after multiplication with the tranformation matrx.
+\begin{align*}
+    L  & : Ax = y                          \\
+    x' & \in \ker L  \textbf{ if } Ax' = 0
+\end{align*}
+The kernel forms a subspace of \( V \):
+\begin{align*}
+    v, u \in \ker L, \alpha \in \mathbb{F} \\
+    \alpha v \in \ker L                    \\
+    v + u \in \ker L                       \\
+\end{align*}
+\begin{example}
+    \begin{align*}
+        L & : Ax = y                        \\
+        A & =  \begin{bmatrix}
+            1 & -1, & 0 \\
+            0 & -2  & 4 \\
+        \end{bmatrix} & \\
+    \end{align*}
+    To calculate \( \ker A\) simply set \(y\) to the zero vector and solve for \(x\).
+    \begin{align*}
+        \begin{bmatrix}
+            1 & -1, & 0 \\
+            0 & -2  & 4 \\
+        \end{bmatrix} \begin{bmatrix}
+            x_1 \\
+            x_2 \\
+            x_3 \\
+        \end{bmatrix} = \begin{bmatrix}
+            0 \\ 0 \\ 0
+        \end{bmatrix} \\
+        x_1 - x_2       = 0 \rightarrow x_1 = x_2                                          \\
+        -2 x_2 + 4 x_3  = 0 \rightarrow x_2 = 2 x_3                                        \\
+    \end{align*}
+    The kernel is:
+    \begin{align*}
+        \ker L & = \setb{
+            c \cdot \begin{bmatrix}
+                2 \\ 2 \\ 1
+            \end{bmatrix}
+        }{c \in \mathbb{C} }
+    \end{align*}
+    A concrete example:
+    \begin{align*}
+        \begin{bmatrix}
+            4 \\ 4 \\ 2
+        \end{bmatrix}                 & \in \ker L                                                \\
+        L \left(\begin{bmatrix}
+            4 \\ 4 \\ 2
+        \end{bmatrix} \right) & = \begin{bmatrix}
+            1 \cdot 4  -1 \cdot 4  + 0 \cdot 2 \\
+            0 \cdot 4  -2 \cdot 4 + 4 \cdot 2  \\
+        \end{bmatrix} = \begin{bmatrix}
+            0 \\ 0
+        \end{bmatrix} \\
+    \end{align*}
+\end{example}
+\chapter{Matrices}
+\section{Properties}
+\subsection{Dimension}
+The dimension
+\footnote{Not to be confused with the dimenson of a vector space, see \ref{dimension}} is the number of rows \(a\) and columns \(b\) of a Matrix \(A\)
+\begin{equation}
+    \dim{A} = a \times b
+\end{equation}
+Denoted as:
+\begin{align*}
+    A^{a \times b}
+\end{align*}
+\begin{example}
+    \begin{equation*}
+        \dim{\begin{bmatrix}
+                1 & 2 & 3 \\
+                4 & 5 & 6
+            \end{bmatrix}} = 2 \times 3
+    \end{equation*}
+\end{example}
+\begin{example}[Linearly dependent rows/columns]
+    \begin{equation*}
+        \dim{\begin{bmatrix}
+                1 & 2 \\
+                2 & 4
+            \end{bmatrix}}= 2 \times 2
+    \end{equation*}
+\end{example}
+\begin{matlab}
+    \apilink{size}{https://www.mathworks.com/help/matlab/ref/size.html}
+    \begin{lstlisting}
+    A = [[1,2,3],[1,2,3]]
+    size(A)
+    ans 2 3
+    \end{lstlisting}
+\end{matlab}
+\subsection{Rank (Rang)} \label{rank}
+\subsubsection{Rowsapce, columnspace}
+The rowspace \( C \) of a matrix ist the span of its column vectors. \\
+The definied as is the span of its row vectors. It is dentoed as \( C(A^T) \)\\
+The dimension of the column and rowspace are always equal.
+\begin{example}
+    \begin{align*}
+        A         & = \begin{bmatrix}
+            1 & 2 & 4 \\ 1 & 2 & 4
+        \end{bmatrix}      \\
+        C(A)      & = \setb{
+        \begin{bmatrix}
+                c \\ c
+            \end{bmatrix}}{c \in \mathbb{R}} \\
+        C(A^T)    & = \setb{
+        \begin{bmatrix}
+                c \\ 2c \\ 4c
+            \end{bmatrix}}{c \in \mathbb{R}} \\
+        \dim C(A) & = \dim C(A^T) = 1                 \\
+    \end{align*}
+\end{example}
+\subsubsection{Rank}
+The rank of a matrix \(A\) is the maximal number of linearly independent columns
+(or the number of linearly independent rows, is the same thing). Or equally, the rank
+of a matrix A is the dimenson of its columnspace (or rowspace):
+\begin{equation}
+    \rank A = \dim C(A) = \dim C(A^T)
+\end{equation}
+\begin{example}
+    \begin{equation*}
+        \rank \begin{bmatrix}
+            1 & 2 & 3 \\
+            4 & 5 & 6
+        \end{bmatrix} = 2
+    \end{equation*}
+\end{example}
+\begin{example}[Both rows are linearly dependent]
+    \begin{equation*}
+        \rank \begin{bmatrix}
+            1 & 2 & 3 \\
+            2 & 4 & 6
+        \end{bmatrix}  = 1 \\
+    \end{equation*}
+\end{example}
+\begin{example}[Only a matrix containing zeroes has a rank of 0]
+    \begin{equation*}
+        \rank \begin{bmatrix}
+            0 & 0 & 0 \\
+            0 & 0 & 0
+        \end{bmatrix} = 0
+    \end{equation*}
+\end{example}
+\begin{example}
+    Both columns are linearly independent, some rows are linearly dependent.
+    \begin{equation*}
+        \rank \begin{bmatrix}
+            1 & 2 \\ 2 & 4 \\ 5 & 7
+        \end{bmatrix} = 2
+    \end{equation*}
+\end{example}
+\begin{matlab}
+    \apilink{rank}{https://www.mathworks.com/help/matlab/ref/rank.html}
+    \begin{lstlisting}
+    A = [[1,2,3],[1,2,3]]
+    rank(A)
+    ans = 1
+    \end{lstlisting}
+\end{matlab}
+\subsection{Trace (Spur)}
+The trace of a square matrix \( A \) is the sum of all its main diagonal elements.
+\begin{equation}
+    tr(A) = \sum_{i=0}^{n} a_{ii}
+\end{equation}
+
+\begin{example}
+    \begin{align*}
+        A     & = \begin{bmatrix}
+            1 & 2 & 3 \\ 4 & 5 & 6 \\ 7 & 8 & 9
+        \end{bmatrix} \\
+        tr(A) & = 1 + 5 + 9 = 15
+    \end{align*}
+\end{example}
+
+\begin{matlab}
+    \apilink{trace}{https://www.mathworks.com/help/matlab/ref/double.trace.html}
+    \begin{lstlisting}
+>> A = [1,2,3;4,5,6;7,8,9]
+>> trace(A)
+ans =
+15
+\end{lstlisting}
+\end{matlab}
+\subsection{Minor, Cofactors}\label{minor}
+\subsubsection{Submatrix}
+A submatrix \(S_ij\) of a Matrix \(A\) is the Matrix obtained by deleting the \(i\)th Row and deleting the \(j\)th column.
+\begin{example}
+    \begin{align*}
+        A      & = \begin{bmatrix}
+            1 & 2 & 3 \\ 4 & 5 & 6 \\ 7 & 8 & 9
+        \end{bmatrix} \\
+        S_{12} & = \begin{bmatrix}
+            4 & 6 \\ 7 & 9
+        \end{bmatrix}
+    \end{align*}
+\end{example}
+\subsubsection{Minor}
+A minor \(M_{ij}\) of a matrix \(A\) is the determinant of the submatrix \(S_{ij}\).
+\subsubsection{Cofactors}
+A cofactor \( C_{ij} \) is obtained by multiplying the minor \( M_{ij} \) by \( (-1)^{i + j} \). The cofactor Matrix \(C \) is given by:
+\begin{equation}
+    C = \begin{bmatrix}
+        C_{11} & C_{12} & \dots  & C_{1i} \\
+        C_{21} & C_{22} & \dots  & C_{1i} \\
+        \vdots & \vdots & \ddots          \\
+        C_{j1} & C_{j2} &        & C_{ij} \\
+    \end{bmatrix} =  \begin{bmatrix}
+        M_{11}            & -M_{12}             & \dots  & (-1)^{i + 1}M_{1i}  \\
+        -M_{21}           & M_{22}              & \dots  & (-1)^{i + 2} M_{2i} \\
+        \vdots            & \vdots              & \ddots                       \\
+        (-1)^{1+ j}M_{j1} & (-1)^{2 + j} M_{j2} &        & (-1)^{i + j} M_{ij} \\
+    \end{bmatrix}
+\end{equation}
+\begin{example}\label{minor_example}
+    \begin{align*}
+        A = \begin{bmatrix}
+            1 & 2 & 3 \\
+            4 & 5 & 6 \\
+            7 & 8 & 9 \\
+        \end{bmatrix} \\
+    \end{align*}
+    \begin{align*}
+        M_{11} & = det(\begin{bmatrix}
+            5 & 6 \\
+            8 & 9 \\
+        \end{bmatrix}) = -3  &
+        M_{12} & = det(\begin{bmatrix}
+            4 & 6 \\
+            7 & 9 \\
+        \end{bmatrix}) = -6  &
+        M_{13} & = det(\begin{bmatrix}
+            4 & 5 \\
+            7 & 8 \\
+        \end{bmatrix}) = -3    \\
+        M_{21} & = det(\begin{bmatrix}
+            2 & 3 \\
+            8 & 9 \\
+        \end{bmatrix}) = -6  &
+        M_{22} & = det(\begin{bmatrix}
+            1 & 3 \\
+            7 & 9 \\
+        \end{bmatrix}) = -12 &
+        M_{23} & = det(\begin{bmatrix}
+            1 & 2 \\
+            7 & 8 \\
+        \end{bmatrix}) = -6    \\
+        M_{31} & = det(\begin{bmatrix}
+            2 & 3 \\
+            5 & 6 \\
+        \end{bmatrix}) = -3  &
+        M_{32} & = det(\begin{bmatrix}
+            1 & 4 \\
+            3 & 6 \\
+        \end{bmatrix}) = -6 &
+        M_{33} & = det(\begin{bmatrix}
+            1 & 2 \\
+            4 & 5 \\
+        \end{bmatrix}) = -3
+    \end{align*}
+    \begin{equation*}
+        C = \begin{bmatrix}
+            M_{11}  & -M_{12} & M_{13}  \\
+            -M_{21} & M_{22}  & -M_{23} \\
+            M_{31}  & -M_{32} & M_{33}  \\
+        \end{bmatrix} = \begin{bmatrix}
+            -3 & 6   & -3 \\
+            6  & -12 & 6  \\
+            -3 & 6   & -3 \\
+        \end{bmatrix}
+    \end{equation*}
+\end{example}
+\begin{example}
+    \begin{equation*}
+        A = \begin{bmatrix}
+            1 & 2 \\ 3 & 4
+        \end{bmatrix}
+    \end{equation*}
+    \begin{align*}
+        M_{11} & = 4 & M_{12} & = 3 \\
+        M_{21} & = 2 & M_{22} & = 1
+    \end{align*}
+    \begin{equation*}
+        C = \begin{bmatrix}
+            M_{11}  & -M_{12} \\
+            -M_{21} & M_22
+        \end{bmatrix} = \begin{bmatrix}
+            4 & -3 \\ -2 & 1
+        \end{bmatrix}
+    \end{equation*}
+\end{example}
+\subsection{Determinant}
+\subsubsection{2x2 Matrix}
+For 2x2 Matrix the formula is as given:
+\begin{align*}
+    \determinant{\begin{bmatrix}
+            x_1, x_2 \\
+            x_3, x_4 \\
+        \end{bmatrix}} = x_1 \cdot x_4 - x_2 \cdot x_4
+\end{align*}
+\begin{example}
+    \begin{align*}
+        \determinant{
+            \begin{bmatrix}
+                3 & 7 \\ -5 & 11
+            \end{bmatrix}
+        } = 3 \cdot 11 - 7 \cdot (-5) = 68
+    \end{align*}
+\end{example}
+\subsubsection{3x3 Matrix}
+The determinant of a 3x3 Matrix can be calculated using its minors.
+\begin{align*}
+    \determinant{\begin{bmatrix}
+            x_1 & x_2 & x_3  \\
+            x_4 & x_5 & x_6  \\
+            x_7 & x_8 & x_9) \\
+        \end{bmatrix}} & = x_1 \cdot
+    \determinant{\begin{bmatrix}
+            x_5 & x_6 \\
+            x_8 & x_9 \\
+        \end{bmatrix}}- x_2 \cdot
+    \determinant{\begin{bmatrix}
+            x_4 & x_6 \\
+            x_7 & x_9 \\
+        \end{bmatrix}}+ x_3 \cdot \determinant{\begin{bmatrix}
+            x_4 & x_5 \\
+            x_7 & x_8 \\
+        \end{bmatrix}}                                  \\
+                                              & = x_1 (x_5x_9 - x_6 x_8) - x_2 (x_4 x_9 - x_6 x_7) + x_3 (x_4 x_8 - x_5 x_7)        \\
+                                              & = x_1 x_5 x_9 + x_2 x_6 x_7 + x_3 x_4 x_8 - x_3 x_5 x_7 - x_2 x_4 x_9 - x_1 x_6 x_8
+\end{align*}
+For higher order matrices you can apply this method recursively.
+\begin{example}
+    Minors were calculated in previous example.
+    \begin{align*}
+        \determinant{\begin{bmatrix}
+                1 & 2 & 3 \\
+                4 & 5 & 6 \\
+                7 & 8 & 9 \\
+            \end{bmatrix}} & = 1 \cdot(-3) - 2 \cdot(-6) + 3 \cdot(-3) = 0 \\
+    \end{align*}
+\end{example}
+\subsubsection{Triangular matrx}
+\begin{align*}
+    D = \begin{bmatrix}
+        x_{11} & x_{12} & \cdots & x_{1n} \\
+        0      & x_{22} &        &        \\
+        \vdots &        & \ddots          \\
+        0      & 0      & \cdots & x_{nn} \\
+    \end{bmatrix} \det(D) & = x_{11} \cdot x_{22} \dots x_{nn} = \prod_{i=1}^n x_{}
+\end{align*}
+\subsubsection{Singular matrix}
+Singular matrices are matrices with \( \det = 0 \).
+Singular matrices have rows and/or columns that are not linearly independent.
+\begin{example}
+    \begin{align*}
+        A               & = \begin{bmatrix}
+            1 & 2 \\ -2 & -4
+        \end{bmatrix}     \\
+        \determinant{A} & = 1 \cdot (-4) - (-2) \cdot 2 = 0
+    \end{align*}
+\end{example}
+\begin{matlab}
+    \apilink{det}{https://www.mathworks.com/help/matlab/ref/det.html}
+    \begin{lstlisting}
+>> a =[[3,7];[4,12]]
+>> det(a)
+ans = 8
+\end{lstlisting}
+\end{matlab}
+\subsection{Eigenvalues, Eigenvectors}\label{eigen}
+An eigenvector \( v \) of a square matrix \(A\) is a nonzero vector that changes at most by a scalar factor when that linear transformation is applied to it. The corresponding eigenvalue $\lambda$ is the factor by which the eigenvector is scaled.
+\begin{equation} \label{eigenexpression}
+    A\cdot v = \lambda \cdot v
+\end{equation}
+\begin{example}
+    \begin{align*}
+        A         & = \begin{bmatrix}
+            5 & 1 \\ 0 & 3
+        \end{bmatrix}                                                                 \\
+        v         & = \begin{bmatrix}
+            1 \\ 0
+        \end{bmatrix}, \lambda = 5                                                    \\
+        A \cdot v & = \begin{bmatrix}
+            5 & 1 \\ 0 & 3
+        \end{bmatrix} \cdot \begin{bmatrix}
+            1 \\ 0
+        \end{bmatrix} = \begin{bmatrix}
+            5 \\ 0
+        \end{bmatrix}
+    \end{align*}
+\end{example}
+\subsubsection{Characteristic polynomial}
+The expression \ref{eigenexpression} can be written as:
+\begin{align}
+    A\cdot v = \lambda \cdot I \cdot v \tag*{Multiplying with identity Matrix} \\
+    A \cdot v - \lambda \cdot I \cdot v = 0                                    \\
+    v \cdot (A - \lambda \cdot I) = 0
+\end{align}
+Since \(v\) per definition can't be the zero vector, the expression \( (A - \lambda \cdot I) \) must be zero.
+\begin{align*}
+    A - \lambda \cdot I = 0                 \\
+    \determinant{ A - \lambda \cdot I } = 0 \\
+    \determinant{
+        \begin{bmatrix}
+            a_{11} - \lambda & a_{12}           & \cdots & a_{1n}           \\
+            a_{12}           & a_{22} - \lambda &        &                  \\
+            \vdots           &                  & \ddots &                  \\
+            a_{n1}           &                  &        & a_{nn} - \lambda
+        \end{bmatrix}
+    } & = 0
+\end{align*}
+The characteristic polynomial \( P_{A}\) of a matrix \(A\) is defined as:
+\begin{equation}
+    P_A(t) = \determinant{A - t I}
+\end{equation}
+If a square matrix A with \( \dim(A) = n \times n \) then \(p_A(t)\) will have a degree of \(n\).
+\begin{example}\label{eigenexample}
+    \begin{align*}
+        A      & = \begin{bmatrix}
+            5 & 7 \\ 11 & 3
+        \end{bmatrix}                                                                   \\
+        p_A(t) & = \determinant{\begin{bmatrix}
+                5 - t & 7 \\ 11 & 3 -t
+            \end{bmatrix}} = (5 - t) \cdot (3 - t) - 7 \cdot 11 = t^2 - 8 - 62
+    \end{align*}
+\end{example}
+\begin{matlab}
+    \apilink{charpoly}{https://www.mathworks.com/help/symbolic/sym.charpoly.html}
+    \begin{lstlisting}
+    >> charpoly([5, 7 ; 11, 3])
+    ans =
+         1    -8   -62
+   \end{lstlisting}
+\end{matlab}
+\subsubsection{Characteristic equation}
+The roots of the characteristic polynomial are the eigenvalues \(\lambda_i \) of \(A\). The expression
+\begin{equation}
+    p_A(t) = 0\\
+\end{equation}
+is called the characteristic equation. The characteristic polynomial can be written as:
+\begin{equation}
+    p_A(t) = (t - \lambda_1)(t - \lambda_2) \cdots (t - \lambda_i)
+\end{equation}
+\begin{example}\label{eigenexampld}
+    \begin{align*}
+        A      & = \begin{bmatrix}
+            3 & 7 \\ 2 & 5
+        \end{bmatrix}                                                 \\                                                                                                                                                  \\
+        p_A(t) & = \det(A - t I)  = \determinant{\begin{bmatrix}
+                3 - t & 7 \\2  & 5 - t
+            \end{bmatrix}} =  t^2 - 8 t + 1 \\
+    \end{align*}
+    We get the eigenvalues by setting \(p_A(\lambda) = 0\) and solving for \( \lambda \)
+    \begin{align*}
+        \lambda^2 - 8 \lambda + 1 = 0                                           \\
+        \lambda_{12} = -\frac{-8}{2} \pm \sqrt{\left( \frac{-8}{2}\right)^2 -1} \\
+        \lambda_1 = 4 - \sqrt{15},  \lambda_2 = 4 + \sqrt{15}                   \\
+    \end{align*}
+\end{example}
+\subsubsection{Arithmetic Multiplity}
+A matrix can have multiple eigenvalues $\lambda_i$ with the same value.
+The characteristic polynomial can be written as:
+\begin{align*}
+    p_A(t) = (t-\lambda_1)(t-\lambda_2) \dots (t-\lambda_n)
+\end{align*}
+The arithmetic Multiplicity $\mu_A(\lambda_1)$ is the number of times $(t - \lambda_i)$ can divide $p_A(t)$,
+so the highest power $(t - \lambda_i)$ can have (simply said the number of times a value appears).
+\begin{example}
+    \begin{align*}
+        A = \begin{bmatrix}
+            1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+            0 & 2 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+            0 & 0 & 3 & 0 & 0 & 0 & 0 & 0 & 0 \\
+            0 & 0 & 0 & 3 & 0 & 0 & 0 & 0 & 0 \\
+            0 & 0 & 0 & 0 & 3 & 0 & 0 & 0 & 0 \\
+            0 & 0 & 0 & 0 & 0 & 4 & 0 & 0 & 0 \\
+            0 & 0 & 0 & 0 & 0 & 0 & 4 & 0 & 0 \\
+            0 & 0 & 0 & 0 & 0 & 0 & 0 & 4 & 0 \\
+            0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 4 \\
+        \end{bmatrix}
+    \end{align*}
+    A has 4 eigenvalues: 1, 2, 3, 4($=\lambda_{1..10})$\\
+    The characteristic polynomial can be expressed by using only distinct eigenvalues:
+    \begin{align*}
+        p_A(t) = (t -1)(t-2)^2(t-3)^3(t-4)^4
+    \end{align*}
+\end{example}
+For example $\mu_A(\lambda_4) = 4$, because $(t - 4)$ divides $p_A(t)$ 4 times.
+\subsubsection{Eigenvectors}
+To find the eigenvector of an associatited eigenvalue we need to find the kernel of the following linear map:
+\begin{align*}
+    L:  (A - \lambda_i \cdot I) x = y \\
+    \epsilon_i = \ker L
+\end{align*}
+Since the kernel of a tranformation forms a vectorspace  \( \epsilon \) called \textbf{eigenspace}. So following properites are satisfied:
+\begin{align*}
+    v_1, v_2 \in \epsilon_i, c \in \mathbb{F} \\
+    v_1 + v_2 \in \epsilon_i                  \\
+    c \cdot v_1 \in \epsilon                  \\
+\end{align*}
+\begin{example}
+    Continuing  example \ref{eigenexample}.
+    \begin{align*}
+        A & = \begin{bmatrix}
+            3 & 7 \\ 2 & 5
+        \end{bmatrix}                     \\                                                                                                                                                  \\
+        \lambda_1 = 4 - \sqrt{15},  \lambda_2 = 4 + \sqrt{15} \\
+    \end{align*}
+    \(\lambda_1\):
+    \begin{align*}
+        \begin{bmatrix}
+            3 - (4 - \sqrt{15}) & 7 \\ 2 & 5 - ( 4 - \sqrt{15})
+        \end{bmatrix}
+        \begin{bmatrix}
+            x_1 \\ x_2
+        \end{bmatrix}= \begin{bmatrix}
+            0 \\ 0
+        \end{bmatrix}                            \\
+        \begin{bmatrix}
+            -1 + \sqrt{15} & 7 \\ 2 & 1 + \sqrt{15}
+        \end{bmatrix}\begin{bmatrix}
+            x_1 \\ x_2
+        \end{bmatrix}= \begin{bmatrix}
+            0 \\ 0
+        \end{bmatrix} \\
+    \end{align*}
+    We can eliminate the II row by subtracting I $ \left( \frac{2}{-1 + \sqrt{15}} \right) $ \\
+    \begin{align*}
+        \begin{bmatrix}
+            -1 + \sqrt{15} & 7 \\ 2 & 1 + \sqrt{15}
+        \end{bmatrix} \rightarrow
+        \begin{bmatrix}
+            -1 + \sqrt{15} & 7 \\ 2 - 2 & (1 + \sqrt{15})-  \left(\frac{14}{-1 + \sqrt{15}} \right)
+        \end{bmatrix} = \begin{bmatrix}
+            -1 + \sqrt{15} & 7 \\ 0 & 0
+        \end{bmatrix}
+    \end{align*}
+    Since the last row was eliminated, we see that  of $rank(A- \lambda I)$ is 1. It means $x_1$ or $x_2$ can be freely chosen.
+
+    Keep in mind we are interest only in the 'form' of the eigenvector, because an eigenvector of $A$ multiplied with a scalar is still an eigenvector of $A$.
+    \begin{align*}
+        0 & = (-1 + \sqrt{15})x + 7y     \\
+        y & = \frac{(1 - \sqrt{15})x}{7}
+    \end{align*}
+    We can eliminate the fraction by setting  $x=7$.
+    \begin{align*}
+        x   & = 7                                          \\
+        y   & = \frac{(1 - \sqrt{15})7}{7} = 1 - \sqrt{15} \\
+        v_1 & = \begin{bmatrix}
+            7 \\ 1 - \sqrt{15}
+        \end{bmatrix}
+    \end{align*}
+    Same for $\lambda_2$:
+    \begin{align*}
+        \begin{bmatrix}
+            3 - (4 + \sqrt{15}) & 7                   \\
+            2                   & 5 - (4 - \sqrt{15})
+        \end{bmatrix} \begin{bmatrix}
+            x_1 \\ x_2
+        \end{bmatrix} = \begin{bmatrix}
+            0 \\ 0
+        \end{bmatrix}
+    \end{align*}
+    \begin{align*}
+        \begin{bmatrix}
+            -1 - \sqrt{15} & 7             \\
+            2              & 1 - \sqrt{15}
+        \end{bmatrix} \begin{bmatrix}
+            x_1 \\ x_2
+        \end{bmatrix} = \begin{bmatrix}
+            0 \\ 0
+        \end{bmatrix}
+    \end{align*}
+    We can eliminate the II row by subtracting I $ \left( \frac{2}{-1 - \sqrt{15}} \right) $ \\
+    \begin{align*}
+        \begin{bmatrix}
+            -1  - \sqrt{15} & 7 \\
+            0               & 0
+        \end{bmatrix} \begin{bmatrix}
+            x_1 \\ x_2
+        \end{bmatrix} = \begin{bmatrix}
+            0 \\ 0
+        \end{bmatrix} \\
+    \end{align*}
+    Solving for $x_1$, $x_2$:
+    \begin{align*}
+        (-1-\sqrt{15}) x_1 + 7 x_2 & = 0                           \\
+        x_2                        & = \frac{1 + \sqrt{15}x_1}{7}  \\
+        x_1                        & = 7  \text{ (chosen)}         \\
+        x_2                        & = 1 + \sqrt{15}               \\
+        v_2                        & = \begin{bmatrix}
+            7 \\ 1 + \sqrt{15}
+        \end{bmatrix}
+    \end{align*}
+\end{example}
+\begin{matlab}
+    \apilink{eig}{https://www.mathworks.com/help/matlab/ref/eig.html}
+    \begin{lstlisting}
+        >> [a, d] = eig([3, 7; 11, 3])
+    a =
+        0.6236   -0.6236
+        0.7817    0.7817
+    d =
+        11.7750         0
+        0   -5.7750
+    \end{lstlisting}
+\end{matlab}
+\subsubsection{Geometric multiplicity}
+The geometry multiplicity \(\gamma_A \) of an eigenvector is the dimension of the associatited eigenspace.
+
+
+The geometry multiplicity of an eigenvector can't be largert than the arithmetic multiplicity.
+\begin{equation}
+    \gamma_A(\lambda_i) \leq \mu_a(\lambda_1)
+\end{equation}
+\begin{example}
+    \begin{align*}
+        A = \begin{bmatrix}
+            2 & 0 & 0 & 0 \\ 0 & 0 & 0 &0 \\ 0 & 0 &0 &0 \\ 0 & 0 & 1 & 0
+        \end{bmatrix}                                                  \\
+        p_A(t) = t^3(t- 2)                                                               \\
+        \lambda_1 = 2, \lambda_2 = 0                                                     \\
+        \mu_A(2) = 1, \mu_A(0) = 3,                                                      \\
+        \epsilon_1 = \span \{ \begin{bmatrix}
+            2 \\ 0 \\ 0 \\ 0
+        \end{bmatrix} \}                             \\
+        \epsilon_2 = \span \{ \begin{bmatrix}
+            0 \\ 1 \\ 0 \\ 0
+        \end{bmatrix}, \begin{bmatrix}
+            0 \\ 0 \\ 0 \\ 1
+        \end{bmatrix}\} \\
+        \gamma_a(2) = \dim \epsilon_1 = 1                                                \\
+        \gamma_a(0) = \dim \epsilon_2 = 2
+    \end{align*}
+\end{example}
+\subsection{Similarity}\label{similiarity}
+Two square matrices $A$ and $B$ are similar when an if there exists an invertible $n \times n$ matrix U such that:
+\begin{equation}
+    A = U^{-1}BU
+\end{equation}
+It is denoted as
+\begin{equation*}
+    A \tilde{=} B
+\end{equation*}
+U is also called the change of base matrix.
+Similar matrices have the same:
+\begin{itemize}
+    \item Characteristic polynomial
+    \item Eigenvalues (but not eigenvectors)
+    \item Determinant
+    \item Trace
+\end{itemize}
+Similarity is an equivalence relation
+\begin{itemize}
+    \item A is similar to A
+    \item If A is similar to B, then B is similar to A.
+    \item If A is similar to B and B is similar to C, then A is similar to C.
+\end{itemize}
+\begin{example}
+    \begin{align*}
+        B = \begin{bmatrix}
+            2 & 3 \\ 0 & 4
+        \end{bmatrix}, A = \begin{bmatrix}
+            3 & 4 \\ \frac{1}{4} & 3
+        \end{bmatrix}, P = \begin{bmatrix}
+            3 & 0 \\ 1 & 4
+        \end{bmatrix}, P^{-1} = \begin{bmatrix}
+            \frac{1}{3} & 0 \\ -\frac{1}{12} & \frac{1}{4}
+        \end{bmatrix}
+    \end{align*}
+    \begin{align*}
+        P^{-1}BP = \begin{bmatrix}
+            \frac{1}{3} & 0 \\ -\frac{1}{12} & \frac{1}{4}
+        \end{bmatrix}
+        \begin{bmatrix}
+            2 & 3 \\ 0 & 4
+        \end{bmatrix}
+        \begin{bmatrix}
+            3 & 0 \\ 1 & 4
+        \end{bmatrix} = \begin{bmatrix}
+            \frac{2}{3} & 1 \\ -\frac{1}{6} & \frac{3}{4}
+        \end{bmatrix}\begin{bmatrix}
+            3 & 0 \\ 1 & 4
+        \end{bmatrix} = \begin{bmatrix}
+            3 & 4 \\ \frac{1}{4} & 3
+        \end{bmatrix}
+    \end{align*}
+    \begin{align*}
+        \det(B) & = 2 \cdot 4 - 3 \cdot 0 = 8                           \\
+        \det(A) & = 3 \cdot 3 - 1 \cdot \frac{1}{4} = 8                 \\
+        tr(A)   & = 3 + 3 = 6                                           \\
+        tr(B)   & = 2 +4 = 6                                            \\
+        p_B(t)  & = (2 - t)(4 - t) - 4 \cdot 0 = t^2 - 6t + 8           \\
+        p_A(t)  & = (3 - t)(3 - t) - 4 \cdot \frac{1}{4} = t^2 - 6t + 8 \\
+    \end{align*}
+\end{example}
+\section{Operations}
+\subsection{Transposing}
+Transpose of a matrix \(A\) is an operator which flips a matrix over its diagonal; that is, it switches the row and column indices of the matrix A by producing another matrix, often denoted by $A^T$.
+\begin{example}
+    \begin{align*}
+        \begin{bmatrix}
+            1 & 2 & 3
+        \end{bmatrix}^T = \begin{bmatrix}
+            1 \\
+            2 \\
+            3 \\
+        \end{bmatrix}
+    \end{align*}
+\end{example}
+\begin{example}
+    \begin{align*}
+        \begin{bmatrix}
+            1 & 2 & 3 \\
+            4 & 5 & 6 \\
+            7 & 8 & 9 \\
+        \end{bmatrix}^T = \begin{bmatrix}
+            1 & 4 & 7 \\
+            2 & 5 & 8 \\
+            3 & 6 & 9 \\
+        \end{bmatrix}
+    \end{align*}
+\end{example}
+Notice the diagonal elements do not get swaped by transposing. So for any diagonal matrix D holds $D=D^T$.
+\begin{matlab}
+    \apilink{transpose}{https://www.mathworks.com/help/matlab/ref/transpose.html}
+    \begin{lstlisting}
+    A = [1,2,3;4,5,6]
+    transpose(A)
+    ans =
+    1     4
+    2     5
+    3     6
+    \end{lstlisting}
+\end{matlab}
+\subsubsection{Solving for eigenvalues and eigenvectors}
+\begin{example}
+    \begin{align*}
+        A      & = \begin{bmatrix}
+            3 & 7 \\ 2 & 5
+        \end{bmatrix}                                                 \\                                                                                                                                                  \\
+        p_A(t) & = \det(A - t I)  = \determinant{\begin{bmatrix}
+                3 - t & 7 \\2  & 5 - t
+            \end{bmatrix}} =  t^2 - 8 t + 1 \\
+    \end{align*}
+    We get the eigenvalues by setting \(p_A(\lambda) = 0\) and solving for \( \lambda \)
+    \begin{align*}
+        \lambda^2 - 8 \lambda + 1 = 0                                           \\
+        \lambda_{12} = -\frac{-8}{2} \pm \sqrt{\left( \frac{-8}{2}\right)^2 -1} \\
+        \lambda_1 = 4 - \sqrt{15},  \lambda_2 = 4 + \sqrt{15}                   \\
+    \end{align*}
+\end{example}
+\subsection{Diagonalisation}
+A matrix $A$ is diagonalizabe if $A$ is similar (see \ref{similiarity}) to a diagonal matrix $D$.
+\begin{equation*}
+    A = U^{-1}DU
+\end{equation*}
+\subsubsection{Eigenbase}
+A  matrix can be diagonalized using its eigenvalues and eigenvectors.
+D is a diagonal matrix containing the eigenvalues $\lambda_i$ on it main diagonal:
+The the bases eigenspaces $\epsilon_i$ form a base called \textbf{eigenbase} (when the arithmetic multiplicity of an eigenvalue is 1 then $\epsilon$ is just the eigenvector).
+So change of base matrix $U$ has the base vectors of the eigenspaces as it's columns.
+\begin{equation}
+    U = \begin{bmatrix}
+        \epsilon_1(\lambda_1) & \epsilon_2(\lambda_2) & \dots & \epsilon_i(\lambda_i)
+    \end{bmatrix}
+\end{equation}
+\end{document}
