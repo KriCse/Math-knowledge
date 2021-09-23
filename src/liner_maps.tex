@@ -1,0 +1,408 @@
+\chapter{Linear Maps}
+\section{Vector spaces}
+A vector space over a field \(F\) is a set \(V\) that is closed under vector addition (+) and scalar multiplication (\( \cdot \)). A vecotr space must fulfill following axioms:
+\begin{align}
+    \begin{split}
+        v, w, u \in V \\
+        \alpha, \beta \in F \\
+        v + w = u  \\
+        \alpha \cdot v = u \\
+        (\alpha \cdot \beta) \cdot v = \alpha \cdot (\beta \cdot v)      \\
+        \alpha (v + w) = \alpha \cdot v + \alpha \cdot w              \\
+        (\alpha + \beta) \cdot w = \alpha \cdot v + \beta \cdot w \\
+        1 \cdot v = w
+    \end{split}
+\end{align}
+The vector addition \((V,+)\) form a commutative group.
+\begin{align*}
+    (v + w) + u = v + (w + z) \tag*{Associativity} \\
+    v + 0 = V \tag*{Identity element: zero vector} \\
+    v + w = 0 \tag*{Inverse element}               \\
+    v + w  = w + v \tag*{Commutativity}            \\
+\end{align*}
+\( (F, +, \cdot)\) form a field.
+\begin{align*}
+    a, a^{-1}, b, c \in F                                                         \\
+    (a + b) + c = a + (b + c) \tag*{Additive associativity}                       \\
+    a + a^{-1} = 0 \tag*{Additive inverse}                                        \\
+    a + 0 = a \tag*{Additive identity}                                            \\
+    a + b = b + a \tag*{Additive commutativity}                                   \\
+    (a \cdot b) \cdot c = a \cdot (b \cdot c)  \tag*{Mulitlicative associativity} \\
+    a \cdot a^{-1} = 1, a^{-1} \neq 0 \tag*{Mulitlicative inverse}                \\
+    a  \cdot 1 = a \tag*{Multiplicative identity}                                 \\
+    a \cdot b = b \cdot a \tag*{Mulitplicative commutativity}                     \\
+    a \cdot (b + c) = a\cdot b + \cdot c \tag*{Distibutivity}
+\end{align*}
+Example for fields: \((\mathbb{R}, +, \cdot)\) \( (\mathbb{C}, +, \cdot)\) \\
+Example for non fields: \((\mathbb{N}, +, \cdot)\) \( (\mathbb{Z}, +, \cdot)\) \\
+\subsection{Subspace}
+Let \(V\) be a vector space ofer a field \(F\). A subspace \(W\) is a subset of \(V\) that also form a vector space over \(F\).
+\begin{example}
+    \(\mathbb{R}^2\) is a vector space over \(\mathbb{R}\).
+    \begin{align*}
+        W = \setb{c \cdot \begin{bmatrix}
+                1 \\2
+            \end{bmatrix}
+        }{c \in \mathbb{R}} = \{ \dots \begin{bmatrix}
+            -1 \\ -2
+        \end{bmatrix}, \begin{bmatrix}
+            1 \\2
+        \end{bmatrix}, \begin{bmatrix}
+            2 \\4
+        \end{bmatrix},\begin{bmatrix}
+            2.4 \\ 4.8
+        \end{bmatrix} \dots
+        \}
+    \end{align*}
+\end{example}
+\subsection{Span, (lineare Hülle)}
+Let \(V\) be a vector space ofer a field \(F\) and \(S\) a finite subset of \(V\) wiht length \(n\). The span of \(S\) is the set of vectors that can be created by linear combinations with the vectors in \(S\).
+\begin{equation}
+    span(S) = \setb{
+        \sum_{i=1}^{n} a_i \cdot s_i
+    }{n \in \mathbb{N}, a_i \in F, s_i \in S}
+\end{equation}
+\begin{example}
+    \begin{align*}
+        S        & = \{
+        \begin{bmatrix}
+            1 \\ 0 \\ 0
+        \end{bmatrix},
+        \begin{bmatrix}
+            0 \\ 1 \\ 0
+        \end{bmatrix}
+        \}                   \\
+        \vspan S & =  \setb{
+            a_1
+            \begin{bmatrix}
+                1 \\ 0 \\ 0
+            \end{bmatrix} + a_2
+            \begin{bmatrix}
+                0 \\ 1 \\ 0
+            \end{bmatrix}
+            \
+        }{a_1, a_2 \in \mathbb{R}}
+    \end{align*}
+\end{example}
+\subsubsection{Spanning set}
+Let \(V\) be a vector space ofer a field \(F\) and \(S\) a finite subset of \(V\). \(S\) is a spanning set of if
+\begin{equation}
+    \vspan S = V
+\end{equation}
+\begin{example}
+    Let \(V\) be \(\mathbb{R}^2\) over the field \(\mathbb{R}\). Following subsets are spanning set of \(V\):
+    \begin{align*}
+        S_1 & = \{ \begin{bmatrix}
+            1 \\ 0
+        \end{bmatrix},
+        \begin{bmatrix} 0 \\ 1 \end{bmatrix}
+        \}                                     \\
+        S_2 & = \{ \begin{bmatrix}
+            3 \\ 0
+        \end{bmatrix},
+        \begin{bmatrix} 0 \\ 2 \end{bmatrix}
+        \}                                     \\
+        S_3 & = \{ \begin{bmatrix}
+            3 \\ 0
+        \end{bmatrix},
+        \begin{bmatrix} 0 \\ 2 \end{bmatrix},
+        \begin{bmatrix} 1 \\ 2 \end{bmatrix}
+        \}
+    \end{align*}
+\end{example}
+\subsection{Base}
+Let \(V\) be a vector space ofer a field \(F\) and \(B\) a spanning set of \(V\). If the elements of \(B\) are lineary independent then \(B\) is called a basis.
+The coefficients of the linear combination are referred to as components or coordinates of the vector with respect to \(B\).
+The elements of \(B\) are called basis vectors.
+\begin{example}
+    Let \(V\) be \(\mathbb{R}^2\) over the field \(\mathbb{R}\). Following subsets are spanning set of \(V\):
+    \begin{align*}
+        B_1 & = \{ \begin{bmatrix}
+            1 \\ 0
+        \end{bmatrix},
+        \begin{bmatrix} 0 \\ 1 \end{bmatrix}
+        \}                                     \\
+        B_2 & = \{ \begin{bmatrix}
+            3 \\ 0
+        \end{bmatrix},
+        \begin{bmatrix} 0 \\ 2 \end{bmatrix}
+        \}                                     \\
+    \end{align*}
+    In previous example \(S_3\) is not a valid base, because its elements are lineary dependent.
+\end{example}
+\subsubsection{Standard base}
+A base \(B\) is called a Standard base if the vecotors of \(B\) are all zero, except one that equals 1. The vectors
+of the standard base are called unit vectors.
+\begin{example}
+    The standard base for \(\mathbb{R}^n\) is
+    \begin{align*}
+        \hat{i} & = \begin{bmatrix}
+            1 \\ 0 \\ 0
+        \end{bmatrix}, \hat{j} = \begin{bmatrix}
+            0 \\ 1 \\ 0
+        \end{bmatrix}, \hat{k} = \begin{bmatrix}
+            0 \\ 0 \\ 1
+        \end{bmatrix} \\
+        B       & = \{ \hat{i}, \hat{j}, \hat{k} \}
+    \end{align*}
+    A vector \(v\) expressed in the standard basis \(B\).
+    \begin{align*}
+        v = \begin{bmatrix}
+            4 \\ 5 \\ 6
+        \end{bmatrix}= 4 \hat{i} + 5  \hat{j} + 6  \hat{k}
+    \end{align*}
+\end{example}
+\subsection{Dimension}\label{dimension}
+The dimension \( \dim \) of a vector space is the size of its base \(B\). The dimension
+is equal to the rank (see \ref{rank}) of the tranformation matrix.
+\begin{example}
+    The vector space \(\mathbb{R}^n\)
+    \begin{align*}
+        \dim \mathbb{R}^n = n
+    \end{align*}
+\end{example}
+\begin{example}
+    \begin{align*}
+        V      & = \setb{
+            c_1
+            \begin{bmatrix}
+                1 \\ 0 \\ 0 \\ 0
+            \end{bmatrix},
+            c_2
+            \begin{bmatrix}
+                0 \\ 1 \\ 0 \\ 0
+            \end{bmatrix}
+        }{c_1, c_2 \in \mathbb{R}} \\
+        \dim V & = 2
+    \end{align*}
+\end{example}
+\begin{example}
+    \begin{align*}
+        V      & = \setb{
+            c_1
+            \begin{bmatrix}
+                1 \\ 1 \\ 0 \\ 0
+            \end{bmatrix},
+            c_2
+            \begin{bmatrix}
+                0 \\ 1 \\ 0 \\ 0
+            \end{bmatrix}
+        }{c_1, c_2 \in \mathbb{R}} \\
+        \dim V & = 1
+    \end{align*}
+\end{example}
+\begin{example}
+    The only vector space with dimension 0 is where V contains only the zero vector.
+    \begin{align*}
+        \dim \{ \begin{bmatrix} 0 \\ 0 \\ 0 \end{bmatrix}\} = 0
+    \end{align*}
+
+\end{example}
+section{Linear maps}
+Let \(V\) \(W\) be vector spaces over the same field \(F\).
+A function \(f: V \rightarrow W\) is said to be a linear map if for any two vectors \(v, u \in V\) and any scalar \(c \in F\) the following two conditions are satisfied:
+\begin{align}
+    f(u + v)     & = f(u) + f(v) \tag{Additvity} \\
+    f(c \cdot u) & = c \cdot u \tag{Homogenity}
+\end{align}
+\subsection{Transformation matrix}
+Each linear transformation can be represented as a matrix vector multiplication.
+\begin{align*}
+    f      & : W \rightarrow V  \\
+    \dim W & = n, \dim V = m    \\
+    f(x)   & = A^{m \times n} x \\
+\end{align*}
+\begin{example}
+    \begin{align*}
+        f(x)                                       &
+        = \begin{bmatrix}
+            1 & 2 & 3 \\ 5 & 7 & 9
+        \end{bmatrix} \begin{bmatrix}
+            x_1 \\ x_2 \\ x_3
+        \end{bmatrix}                   \\
+        f \left(\begin{bmatrix}
+            5 \\ 6 \\ 7
+        \end{bmatrix} \right) & = \begin{bmatrix}
+            38 \\ 130
+        \end{bmatrix}
+    \end{align*}
+\end{example}
+\subsubsection{Composition}
+If there are two linear maps \(f, g\) wiht tranformation matrices:
+\begin{align*}
+    f : V \rightarrow W  = Ax \\
+    g : U \rightarrow V = Bx
+\end{align*}
+then the compostition is:
+\begin{align*}
+    h : U \rightarrow W = f \circ g \\
+    h(x) = A(Bx) = (A \cdot B)x
+\end{align*}
+\begin{example}
+    \begin{align*}
+        f(x)                                        & = \begin{bmatrix}
+            1 & 2 & 3 \\ 5 & 7 & 9
+        \end{bmatrix} \cdot x                                                                             \\
+        g(x)                                        & = \begin{bmatrix}
+            -1 & -2 \\ -7 & -9 \\ 13 & 17
+        \end{bmatrix} \cdot x                                                                             \\
+        h(x)                                        & = f \circ g = \begin{bmatrix}
+            1 & 2 & 3 \\ 5 & 7 & 9
+        \end{bmatrix} \begin{bmatrix}
+            -1 & -2 \\ -7 & -9 \\ 13 & 17
+        \end{bmatrix} \cdot x = \begin{bmatrix}
+            24 & 31 \\ 64  & 80
+        \end{bmatrix} \cdot x \\
+        g \left( \begin{bmatrix}
+            3 \\ 4
+        \end{bmatrix} \right) & = \begin{bmatrix}
+            -11 \\ -57 \\ 107
+        \end{bmatrix}, f \left( \begin{bmatrix}
+            -11 \\ -57 \\ 107
+        \end{bmatrix} \right) = \begin{bmatrix}
+            196 \\ 509
+        \end{bmatrix}           \\
+        h(\begin{bmatrix}
+            3 \\ 4
+        \end{bmatrix})               & = \begin{bmatrix}
+            196 \\ 509
+        \end{bmatrix}
+    \end{align*}
+\end{example}
+\subsection{Image (Bild)}
+The image \(f^{\rightarrow}\) of a tranformation \(L: V \rightarrow W \) is the set of vectors that the tranformation can produce.
+\begin{equation}
+    f^{\rightarrow} (L)  = \setb{L(x)}{x \in V}
+\end{equation}
+The image is the columnspan of the tranformation matrix. The dimenson of the image ist called \textbf{rank}, and is the
+same as the rank of the transformation matrix.
+\begin{example}
+    \begin{align*}
+        L(x)                & = \begin{bmatrix}
+            1 & 0 \\
+            0 & 1 \\
+        \end{bmatrix}x \\
+        f^{\rightarrow} (L) & = \mathbb{R}^2
+    \end{align*}
+\end{example}
+\begin{example}
+    \begin{align*}
+        L(x)                & = \begin{bmatrix}
+            1 & 0 \\
+            2 & 0 \\
+            1 & 1 \\
+            0 & 2 \\
+        \end{bmatrix}x      \\
+        f^{\rightarrow} (L) & = \setb{\begin{bmatrix}
+                c_1 \\ 2c_1 \\ c_1 + c_2 \\ 2 c_2
+            \end{bmatrix}
+        }{c_1, c_2 \in \mathbb{R}}
+    \end{align*}
+\end{example}
+\subsection{Kernel, Null Space (Kern)}\label{kernel}
+The kernel of a linear map \(L: V \rightarrow W \) is the linear subspace of the domain of the map which is mapped to the zero vector.
+\begin{equation}
+    \ker L = \{ v \in V | L(v) = 0 \} \\
+\end{equation}
+
+The vecots of the kernel are the set of vectors that yield the zero vector after multiplication with the tranformation matrx.
+\begin{align*}
+    L  & : Ax = y                          \\
+    x' & \in \ker L  \textbf{ if } Ax' = 0
+\end{align*}
+The kernel forms a subspace of \( V \):
+\begin{align*}
+    v, u \in \ker L, \alpha \in \mathbb{F} \\
+    \alpha v \in \ker L                    \\
+    v + u \in \ker L                       \\
+\end{align*}
+The dimension of the kernel is called the \textbf{nullity}.
+\begin{example}
+    \begin{align*}
+        L & : Ax = y                        \\
+        A & =  \begin{bmatrix}
+            1 & -1, & 0 \\
+            0 & -2  & 4 \\
+        \end{bmatrix} & \\
+    \end{align*}
+    To calculate \( \ker A\) simply set \(y\) to the zero vector and solve for \(x\).
+    \begin{align*}
+        \begin{bmatrix}
+            1 & -1, & 0 \\
+            0 & -2  & 4 \\
+        \end{bmatrix} \begin{bmatrix}
+            x_1 \\
+            x_2 \\
+            x_3 \\
+        \end{bmatrix} = \begin{bmatrix}
+            0 \\ 0 \\ 0
+        \end{bmatrix} \\
+        x_1 - x_2       = 0 \rightarrow x_1 = x_2                                          \\
+        -2 x_2 + 4 x_3  = 0 \rightarrow x_2 = 2 x_3                                        \\
+    \end{align*}
+    The kernel is:
+    \begin{align*}
+        \ker L & = \setb{
+            c \cdot \begin{bmatrix}
+                2 \\ 2 \\ 1
+            \end{bmatrix}
+        }{c \in \mathbb{C} }
+    \end{align*}
+    A concrete example:
+    \begin{align*}
+        \begin{bmatrix}
+            4 \\ 4 \\ 2
+        \end{bmatrix}                 & \in \ker L                                                \\
+        L \left(\begin{bmatrix}
+            4 \\ 4 \\ 2
+        \end{bmatrix} \right) & = \begin{bmatrix}
+            1 \cdot 4  -1 \cdot 4  + 0 \cdot 2 \\
+            0 \cdot 4  -2 \cdot 4 + 4 \cdot 2  \\
+        \end{bmatrix} = \begin{bmatrix}
+            0 \\ 0
+        \end{bmatrix} \\
+    \end{align*}
+\begin{example}
+    
+\end{example}
+    \section{Rank-Nullity theorem}
+If \(L : V \rightarrow W\) is a linear tranformation then it.
+\begin{equation}
+  \rank L + \nullity T = \dim (image T) + \dim(\ker(T)) = \dim(V)
+\end{equation}
+\begin{example}
+   \begin{align*}
+      L &: \begin{bmatrix}
+          1 & 0 \\ 0 & 1
+      \end{bmatrix} x = y\\
+      image T  &= \mathbb{R}^2 \\ 
+      \rank L &= 2 \\
+      \ker T &= \{ \begin{bmatrix}
+         0 \\ 0 
+      \end{bmatrix} \} \\
+      \nullity L &= 0\\
+      \dim V &= \rank L + \nullity T = 2 +0 = 2
+   \end{align*} 
+\end{example}
+\begin{example}
+    \begin{align*}
+    L &: \begin{bmatrix}
+        1 & 2  & 4 \\ 2 & 4 & 8
+    \end{bmatrix} x = y \\
+    imag L &= \setb{
+\begin{bmatrix}
+   c \\ 2 c
+\end{bmatrix}
+    }{c \in \mathbb{R}}
+    \end{align*}
+    \begin{align*}
+    \rank L = 1 \\
+    \ker L = \setb{
+        \begin{bmatrix}
+           -2 c_1 - 4 c_2\\ c_1 \\  c_2
+        \end{bmatrix}
+           }{ c_1, c_2 \in \mathbb{R}}
+    \nullity A = 2
+    \end{align*}
+\end{example}
+\end{example}

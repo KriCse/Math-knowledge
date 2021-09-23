@@ -1,0 +1,44 @@
+\hypersetup{
+colorlinks=true,
+linkcolor=blue,
+filecolor=magenta,      
+urlcolor=magenta,
+pdfpagemode=FullScreen,
+}
+\geometry{legalpaper, margin=2cm}
+
+% Operators
+\DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator{\vspan}{span}
+\DeclareMathOperator{\nullity}{nullity}
+% Colors
+\definecolor{light-gray}{gray}{0.95}
+
+% Commands
+\newcommand{\apilink}[2]{
+   \colorbox{light-gray}{\texttt{#1}}
+    (\href{#2}{API link})
+}
+\newcommand{\determinant}[1]{
+    \det \left( #1 \right)
+}
+\newcommand{\setb}[2]{
+\{#1 \mid #2 \}
+}
+
+% Counter
+\newcounter{example}[subsubsection]
+
+% Enviroments
+
+\newenvironment{example}[1][\unskip]{
+    \refstepcounter{example}
+    \textcolor{Blue}{
+    \subsubsection{Example \theexample:}}#1 
+    \vspace{0.1ex} 
+}{
+}
+
+\newenvironment{matlab}{
+\textcolor{red}{
+\subsubsection{Matlab}}\vspace{0.2ex}}{}
