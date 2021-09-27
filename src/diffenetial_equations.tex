@@ -1,0 +1,131 @@
+\chapter{Differential Equation}
+\section{Homogeneous linear first-order}
+The homogeneous linear first-order differential equations have the form:
+\begin{align*}
+   f'(t) + p(t)f(t) = 0
+\end{align*}
+Homogeneous is because one side of the equation is zero. 
+You can rewrite the expression above to have \(f(x)\) separated
+\begin{gather}
+   f'(t)  = -p(t)f(t) \\
+f'(t) \frac{1}{f(t)} = -p(t) \label{homodiff}
+\end{gather}
+Now all the \(f(t)\) terms are on the left hand side.
+
+Note the following differentiation:
+\begin{gather}
+    (\ln f(t))' = \frac{1}{f(t)} f'(t)
+\end{gather}
+It can be used to help integrate \ref{homodiff}.
+\begin{gather*}
+\int f'(t) \frac{1}{f(t)} = \int -p(t) \\
+\ln(|f(t)|) + C_1  =- P(t) + C_2 \\
+\ln(|f(t)|)  = -P(t) + \hat{C}
+\end{gather*}
+You can combine \(C_1\) and \(C_2\) to a single constant \(\hat{C}\), because they
+both are constants. 
+Since the domain of \( \ln \) is \((0, \inf]\) you have to take the absolute value of \(f(t)\).
+To get rid of \(\ln\) raise both side to \( e \). To compensate for the absolute value
+you have to take \(\pm\) of \(e\).
+\begin{gather}
+   |f(t)| = e^{-P(t) + \hat{C}} \\
+   f(t) = \pm e^{-P(t) + \hat{C}} \\
+   f(t) =  e^{-P(t)} C \label{homogeneral}
+\end{gather} 
+The expression \(e^{\hat{C}}\) is a constant, so it can be replaced by \(C\), which constant
+be \(\pm\). 
+
+The expression \ref{homogeneral} is the general solution for homogeneous first order
+linear differential equations. Any linear combination of the general is a valid solution 
+to the differential equation.
+\subsubsection{Notation}
+The notation of differential equations can be simplified by: 
+\begin{gather*}
+    f(t) = y\\
+    f(t)' = y'\\
+\end{gather*}
+\begin{example}
+    \begin{gather*}
+       y' + sin(x + 2)y = 0 
+    \end{gather*}
+    The general solution is: 
+    \begin{gather*}
+       p(t) = sin(x + 2) \\
+       P(t) = - cos(x + 2)\\
+       y =  e^{-p(t)} C \\
+       y =  e^{cos(x + 2)} C \\
+    \end{gather*} 
+    Following functions are valid solutions to the homogeneous equation: 
+    \begin{gather*}
+       y =  2e^{cos(x + 2)} \\
+       y =  2e^{cos(x + 2)} +  3e^{cos(x + 2)} \\
+       y = 0 \\ 
+    \end{gather*}
+\end{example}
+\subsubsection{Non-homogenous}
+\begin{gather}\label{inhomo}
+    y' + p(t)y = s(t) 
+\end{gather}
+Recall the product rule which states
+\begin{gather}
+   (f \cdot g) = f' g + f g'
+\end{gather}
+If we multiply \ref{inhomo} by an unknown function \(\mu(t)\) called the \textbf{integrating factor} we get the following expression:
+\begin{gather}\label{intfactor}
+  \mu(t) y' + \mu(t) p(t)y = \mu(t) s(t) 
+\end{gather}
+we have an expression that looks like the product rule, if we suppose that 
+\begin{gather}\label{intfactorcondition}
+  \mu(t)' =  \mu(t) p(t) \\
+  \mu(t) = \int \mu(t) p(t)
+\end{gather}
+Integrating \ref{intfactor} by using the product formula in reverse we get:
+\begin{gather}
+ \int \mu(t) \cdot y' + \mu(t)\cdot p(t) \cdot y  dt = \int \mu(t) \cdot s(t) dt \\
+ \mu (t) y = \int \mu(td) s(t) dt \\
+  y = \frac{1}{\mu(t)}\int \mu(t) s(t)  \label{inhomosol}
+\end{gather}
+The function that satisfies \ref{intfactorcondition} is 
+\begin{gather}
+  \mu(t) = C(t) e^{P(t)}\\
+  \mu(t)' = C(t)' e^{P(t)} + C(t) \cdot p(t) \cdot e^{P(t)}
+\end{gather}
+We can chose \(C(t) = 1\)
+\begin{gather}
+   \mu(t)  = e^{P(t)} \label{mufunction}\\ 
+\mu(t)' = p(t)e^{P(t)} = p(t)\mu(t)\\
+\end{gather}
+Setting \ref{mufunction} in \ref{inhomosol} we get the solution for the differential equation.
+\begin{equation}
+  y = e^{-P(t)}\int e^{P(t)} s(t)dt
+\end{equation}
+In general integrating the expression above yield the following expression
+\begin{equation}
+  y = y_p + y_h
+\end{equation}
+Where \(y_h\) is the solution to the homogenous equation \(y' + p(t)y = 0\). The term
+\(y_p\) is called a particular solution and it is one of the solutions to the nonhomogeneous equation.  
+\begin{example}
+   \begin{gather*}
+  y' + 2y = t \\ 
+  p(t) = 2\\ 
+  P(t) = 2t\\
+  s(t) = t \\
+  y = e^{-2t}\int e^{2t} t dt\\
+  y = e^{-2t}\left( \frac{1}{2} e^{2t} \cdot t - \frac{1}{4}e^{2t} + C \right)\\
+  y = \frac{1}{2} t- \frac{1}{4} + C e^{-2t}
+   \end{gather*}
+   We see that  \(Ce^{-2t}\) is the solution to the homogeneous equation.
+   \(y_p = \frac{1}{2} t- \frac{1}{4}\) is one of the solution to the nonhomogeneous equation. 
+\end{example}
+\begin{matlab}
+  \apilink{dsolve}{https://www.mathworks.com/help/symbolic/dsolve.html}
+  \begin{lstlisting}
+   >> syms y(t)
+   >> eqn = diff(y, t) + 2*y == t
+   >> dsolve(eqn)
+   ans =
+      t/2 + (C1*exp(-2*t))/4 - 1/4
+  \end{lstlisting}
+  Note: C1 / 4 is still a constant C.
+\end{matlab}
