@@ -10,6 +10,7 @@ pdfpagemode=FullScreen,
 % Operators
 \DeclareMathOperator{\rank}{rank}
 \DeclareMathOperator{\vspan}{span}
+\DeclareMathOperator{\trace}{trace}
 \DeclareMathOperator{\nullity}{nullity}
 % Colors
 \definecolor{light-gray}{gray}{0.95}
@@ -25,7 +26,7 @@ pdfpagemode=FullScreen,
 \newcommand{\setb}[2]{
 \{#1 \mid #2 \}
 }
-
+\newcommand{\dt} {\frac{d}{dt}}
 % Counter
 \newcounter{example}[subsubsection]
 
@@ -38,7 +39,6 @@ pdfpagemode=FullScreen,
     \vspace{0.1ex} 
 }{
 }
-
 \newenvironment{matlab}{
 \textcolor{red}{
 \subsubsection{Matlab}}\vspace{0.2ex}}{}

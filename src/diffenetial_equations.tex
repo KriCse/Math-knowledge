@@ -4,26 +4,26 @@ The homogeneous linear first-order differential equations have the form:
 \begin{align*}
    f'(t) + p(t)f(t) = 0
 \end{align*}
-Homogeneous is because one side of the equation is zero. 
+Homogeneous is because one side of the equation is zero.
 You can rewrite the expression above to have \(f(x)\) separated
 \begin{gather}
    f'(t)  = -p(t)f(t) \\
-f'(t) \frac{1}{f(t)} = -p(t) \label{homodiff}
+   f'(t) \frac{1}{f(t)} = -p(t) \label{homodiff}
 \end{gather}
 Now all the \(f(t)\) terms are on the left hand side.
 
 Note the following differentiation:
 \begin{gather}
-    (\ln f(t))' = \frac{1}{f(t)} f'(t)
+   (\ln f(t))' = \frac{1}{f(t)} f'(t)
 \end{gather}
 It can be used to help integrate \ref{homodiff}.
 \begin{gather*}
-\int f'(t) \frac{1}{f(t)} = \int -p(t) \\
-\ln(|f(t)|) + C_1  =- P(t) + C_2 \\
-\ln(|f(t)|)  = -P(t) + \hat{C}
+   \int f'(t) \frac{1}{f(t)} = \int -p(t) \\
+   \ln(|f(t)|) + C_1  =- P(t) + C_2 \\
+   \ln(|f(t)|)  = -P(t) + \hat{C}
 \end{gather*}
 You can combine \(C_1\) and \(C_2\) to a single constant \(\hat{C}\), because they
-both are constants. 
+both are constants.
 Since the domain of \( \ln \) is \((0, \inf]\) you have to take the absolute value of \(f(t)\).
 To get rid of \(\ln\) raise both side to \( e \). To compensate for the absolute value
 you have to take \(\pm\) of \(e\).
@@ -31,40 +31,40 @@ you have to take \(\pm\) of \(e\).
    |f(t)| = e^{-P(t) + \hat{C}} \\
    f(t) = \pm e^{-P(t) + \hat{C}} \\
    f(t) =  e^{-P(t)} C \label{homogeneral}
-\end{gather} 
+\end{gather}
 The expression \(e^{\hat{C}}\) is a constant, so it can be replaced by \(C\), which constant
-be \(\pm\). 
+be \(\pm\).
 
 The expression \ref{homogeneral} is the general solution for homogeneous first order
-linear differential equations. Any linear combination of the general is a valid solution 
+linear differential equations. Any linear combination of the general is a valid solution
 to the differential equation.
 \subsubsection{Notation}
-The notation of differential equations can be simplified by: 
+The notation of differential equations can be simplified by:
 \begin{gather*}
-    f(t) = y\\
-    f(t)' = y'\\
+   f(t) = y\\
+   f(t)' = y'\\
 \end{gather*}
 \begin{example}
-    \begin{gather*}
-       y' + sin(x + 2)y = 0 
-    \end{gather*}
-    The general solution is: 
-    \begin{gather*}
-       p(t) = sin(x + 2) \\
-       P(t) = - cos(x + 2)\\
-       y =  e^{-p(t)} C \\
-       y =  e^{cos(x + 2)} C \\
-    \end{gather*} 
-    Following functions are valid solutions to the homogeneous equation: 
-    \begin{gather*}
-       y =  2e^{cos(x + 2)} \\
-       y =  2e^{cos(x + 2)} +  3e^{cos(x + 2)} \\
-       y = 0 \\ 
-    \end{gather*}
+   \begin{gather*}
+      y' + sin(x + 2)y = 0
+   \end{gather*}
+   The general solution is:
+   \begin{gather*}
+      p(t) = sin(x + 2) \\
+      P(t) = - cos(x + 2)\\
+      y =  e^{-p(t)} C \\
+      y =  e^{cos(x + 2)} C \\
+   \end{gather*}
+   Following functions are valid solutions to the homogeneous equation:
+   \begin{gather*}
+      y =  2e^{cos(x + 2)} \\
+      y =  2e^{cos(x + 2)} +  3e^{cos(x + 2)} \\
+      y = 0 \\
+   \end{gather*}
 \end{example}
 \subsubsection{Non-homogenous}
 \begin{gather}\label{inhomo}
-    y' + p(t)y = s(t) 
+   y' + p(t)y = s(t)
 \end{gather}
 Recall the product rule which states
 \begin{gather}
@@ -72,60 +72,190 @@ Recall the product rule which states
 \end{gather}
 If we multiply \ref{inhomo} by an unknown function \(\mu(t)\) called the \textbf{integrating factor} we get the following expression:
 \begin{gather}\label{intfactor}
-  \mu(t) y' + \mu(t) p(t)y = \mu(t) s(t) 
+   \mu(t) y' + \mu(t) p(t)y = \mu(t) s(t)
 \end{gather}
-we have an expression that looks like the product rule, if we suppose that 
+we have an expression that looks like the product rule, if we suppose that
 \begin{gather}\label{intfactorcondition}
-  \mu(t)' =  \mu(t) p(t) \\
-  \mu(t) = \int \mu(t) p(t)
+   \mu(t)' =  \mu(t) p(t) \\
+   \mu(t) = \int \mu(t) p(t)
 \end{gather}
 Integrating \ref{intfactor} by using the product formula in reverse we get:
 \begin{gather}
- \int \mu(t) \cdot y' + \mu(t)\cdot p(t) \cdot y  dt = \int \mu(t) \cdot s(t) dt \\
- \mu (t) y = \int \mu(td) s(t) dt \\
-  y = \frac{1}{\mu(t)}\int \mu(t) s(t)  \label{inhomosol}
+   \int \mu(t) \cdot y' + \mu(t)\cdot p(t) \cdot y  dt = \int \mu(t) \cdot s(t) dt \\
+   \mu (t) y = \int \mu(td) s(t) dt \\
+   y = \frac{1}{\mu(t)}\int \mu(t) s(t)  \label{inhomosol}
 \end{gather}
-The function that satisfies \ref{intfactorcondition} is 
+The function that satisfies \ref{intfactorcondition} is
 \begin{gather}
-  \mu(t) = C(t) e^{P(t)}\\
-  \mu(t)' = C(t)' e^{P(t)} + C(t) \cdot p(t) \cdot e^{P(t)}
+   \mu(t) = C(t) e^{P(t)}\\
+   \mu(t)' = C(t)' e^{P(t)} + C(t) \cdot p(t) \cdot e^{P(t)}
 \end{gather}
 We can chose \(C(t) = 1\)
 \begin{gather}
-   \mu(t)  = e^{P(t)} \label{mufunction}\\ 
-\mu(t)' = p(t)e^{P(t)} = p(t)\mu(t)\\
+   \mu(t)  = e^{P(t)} \label{mufunction}\\
+   \mu(t)' = p(t)e^{P(t)} = p(t)\mu(t)\\
 \end{gather}
 Setting \ref{mufunction} in \ref{inhomosol} we get the solution for the differential equation.
 \begin{equation}
-  y = e^{-P(t)}\int e^{P(t)} s(t)dt
+   y = e^{-P(t)}\int e^{P(t)} s(t)dt
 \end{equation}
 In general integrating the expression above yield the following expression
 \begin{equation}
-  y = y_p + y_h
+   y = y_p + y_h
 \end{equation}
 Where \(y_h\) is the solution to the homogenous equation \(y' + p(t)y = 0\). The term
-\(y_p\) is called a particular solution and it is one of the solutions to the nonhomogeneous equation.  
+\(y_p\) is called a particular solution and it is one of the solutions to the nonhomogeneous equation.
 \begin{example}
    \begin{gather*}
-  y' + 2y = t \\ 
-  p(t) = 2\\ 
-  P(t) = 2t\\
-  s(t) = t \\
-  y = e^{-2t}\int e^{2t} t dt\\
-  y = e^{-2t}\left( \frac{1}{2} e^{2t} \cdot t - \frac{1}{4}e^{2t} + C \right)\\
-  y = \frac{1}{2} t- \frac{1}{4} + C e^{-2t}
+      y' + 2y = t \\
+      p(t) = 2\\
+      P(t) = 2t\\
+      s(t) = t \\
+      y = e^{-2t}\int e^{2t} t dt\\
+      y = e^{-2t}\left( \frac{1}{2} e^{2t} \cdot t - \frac{1}{4}e^{2t} + C \right)\\
+      y = \frac{1}{2} t- \frac{1}{4} + C e^{-2t}
    \end{gather*}
    We see that  \(Ce^{-2t}\) is the solution to the homogeneous equation.
-   \(y_p = \frac{1}{2} t- \frac{1}{4}\) is one of the solution to the nonhomogeneous equation. 
+   \(y_p = \frac{1}{2} t- \frac{1}{4}\) is one of the solution to the nonhomogeneous equation.
 \end{example}
 \begin{matlab}
-  \apilink{dsolve}{https://www.mathworks.com/help/symbolic/dsolve.html}
-  \begin{lstlisting}
+   \apilink{dsolve}{https://www.mathworks.com/help/symbolic/dsolve.html}
+   \begin{lstlisting}
    >> syms y(t)
    >> eqn = diff(y, t) + 2*y == t
    >> dsolve(eqn)
    ans =
       t/2 + (C1*exp(-2*t))/4 - 1/4
   \end{lstlisting}
-  Note: C1 / 4 is still a constant C.
+   Note: C1 / 4 is still a constant C.
 \end{matlab}
+\section{Linear first-oder system of differential equations}
+\subsubsection{The exponential map}
+The exponential map is defined by
+\begin{equation}
+   P_n(t) = e^{At}
+\end{equation}
+where \(A\) is a square matrix with dimension \(n \times n\) (see also \ref{sec:matrixexponent}).
+If a is diagonalizabe then:
+\begin{equation}
+   P_n(t) = Ue^{Dt} U^{-1}
+\end{equation}
+The derivate is given by:
+\begin{equation}
+   P_n(t) \dt = A e^{At}
+\end{equation}
+\subsubsection{System of differential equations}
+A system off differential equations contains a set of unkown function \(x_1(t), x_2(t) \cdots x_n(t) \) denoted by \(x_1, x_2 \cdots x_n\). The derivate of a funciton \(x_i\) (with respext to to \(t\)) is denoted by
+\(x_i'\).
+\subsection{Homogenous case}
+A homogenous linear first-order system has the form:
+\begin{equation*}
+   \begin{split}
+      x_1' &+ p_{11}x_1 + p_{12} x_2 \cdots p_{1n}x_{1n} = 0 \\
+      x_2' &+ p_{21}x_1 + p_{22} x_2 \cdots p_{1n}x_{2n} = 0 \\
+      &\vdots \\
+      x_3' &+ p_{n1}x_1 + p_{n2} x_2 \cdots p_{1n}x_{nn}= 0 \\
+   \end{split}
+\end{equation*}
+The terms \(p_{ij}\) are called coefficient functions (so written out the are like \(p_{ij}(t)\)) they only depend on t.
+The derivates can be expressed as a column vector:
+\begin{equation*}
+   \bm{x'} = \begin{bmatrix}
+      x_1' \\ x_2' \\ \vdots \\ x_n'
+   \end{bmatrix}
+\end{equation*}
+The coefficient functions can be expressed as a square matrix \(A^{n \times n}\)
+\begin{equation}
+   \bm{p} = \begin{bmatrix}
+      p_{11} & p_{12} & \cdots & p_{1n} \\
+      p_{21} & p_{22} & \cdots & p_{2n} \\
+      \vdots &        &        &        \\
+      p_{n1} & p_{n2} & \cdots & p_{nn}
+   \end{bmatrix}
+\end{equation}
+The functions can be written as a column vector
+\begin{equation}
+   \bm{x} = \begin{bmatrix}
+      x_1 & x_2 & \cdots & x_n
+   \end{bmatrix}
+\end{equation}
+The wholse system can be written in matrix form:
+\begin{equation}
+   \bm{x'} = \bm{p} \bm{x}
+\end{equation}
+The solution is given by (same formula as \ref{homogeneral} applied to matrices):
+\begin{equation}
+   \bm{x} = M_p(t) \bm{c}
+\end{equation}
+where \(\bm{c}\) is a column vector of constants.
+\begin{example}
+   \begin{gather*}
+      x_1' = 1 x_1 + 4 x_2 \\
+      x_2' = 3x_2 + 2 x_2 \\
+   \end{gather*}
+   Which can be rewritten as:
+   \begin{gather*}
+      \bm{x'} = \bm{p} \bm{x} \\
+      \begin{bmatrix}
+         x_1' \\ x_2'
+      \end{bmatrix} = \begin{bmatrix}
+         1 & 4 \\ 2 & 4
+      \end{bmatrix} \begin{bmatrix}
+         x_1 \\ x_2
+      \end{bmatrix}
+   \end{gather*}
+   The eigenvalues and eigenvectors are:
+   \begin{gather*}
+      \lambda_1 = -2, v_1 = \begin{bmatrix}
+         \frac{-4}{3} \\ 1
+      \end{bmatrix}
+      \lambda_2 = 5, v_1 = \begin{bmatrix}
+         1 \\ 1
+      \end{bmatrix}
+   \end{gather*}
+   Calculating \(M_p(t)\)
+   \begin{gather*}
+      M_p(t) = \begin{bmatrix}
+         \frac{-4}{3} & 1 \\ 1 & 1
+      \end{bmatrix}
+      \begin{bmatrix}
+         e^{-2t} & 0 \\ 0 & e^{5t}
+      \end{bmatrix} \frac{1}{7}\begin{bmatrix}
+         -3 & 3 \\ 4 & 4
+      \end{bmatrix} = \frac{1}{7 }\begin{bmatrix}
+         4 e^{-2t} + 3e^{5t}  & 4e^{5t} - 4e^{-2t}   \\
+         -3 e^{-2t} + 3e^{5t} & 3 e^{-2t} + 4 e^{5t}
+      \end{bmatrix}
+   \end{gather*}
+   The solution is (note the factor \(\frac{1}{7}\) can be ignored because \(\frac{c}{7}\) ist still a constant):
+   \begin{gather}
+      \bm{x} =  M_p(t) \bm{c} \\
+      x_1(t) = c_1 \left( 4 e^{-2t} + 3e^{5t} \right) + c_2 \left(4e^{5t} - 4e^{-2t} \right) \\
+      x_2(t) = c_1 \left(-3 e^{-2t} + 3e^{5t} \right) + c_2 \left(3 e^{-2t} + 4 e^{5t} \right)
+   \end{gather}
+   The constans can be simplified by setting \(c_a = (3c_1 + 4c_2)\) and \( c_b = 3(c_2 - c_1) \):
+   \begin{align*}
+      x_1(t) & = c_1 4 e^{-2t} + c_1 3e^{5t} + c_2 4 e^{5t} - c_2 4e^{-2t} = -4(c_2 - c_1)e^{-2t}  +  (3c_1 + 4c_2)e^{5t}    \\
+             & = c_a e^{5t} - \frac{4}{3} c_b e^{-2t}                                                                        \\
+      x_2(t) & = c_1 (-3) e^{-2t} + c_1 3e^{5t}  + c_2 3 e^{-2t} + c_2 4 e^{5t} = 3(c_2 - c_1) e^{-2t} + (3c_1 + 4c_2)e^{5t} \\
+             & = c_b e^{-2t} + c_a e^{5t}
+   \end{align*}
+   \begin{matlab}
+      \begin{lstlisting}
+         >> syms x1(t) x2(t)
+         >> ode1 = diff(x1) == 1*x1 + 4*x2
+         >> ode2 = diff(x2) == 3*x1 + 2 *x2
+         >> S = dsolve([ode1 ; ode2])
+         >> S.x1
+            ans = 
+            C1*exp(5*t) - (4*C2*exp(-2*t))/3
+         >> S.x2
+            ans = 
+            C2*exp(-2*t) + C1*exp(5*t)
+      \end{lstlisting}
+   \end{matlab}
+\end{example}
+A more simplified solution is:
+\begin{equation}
+   \bm{x} = \sum_{i=1}^{n} c_i \bm{v_i} e^{\lambda_i t}
+\end{equation}

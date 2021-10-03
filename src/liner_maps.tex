@@ -55,6 +55,17 @@ Let \(V\) be a vector space ofer a field \(F\). A subspace \(W\) is a subset of 
         \}
     \end{align*}
 \end{example}
+\subsubsection{Direct sum}
+Let \(V\) be a vector space ofer a field \(F\)  and \(W\) and \(U\) subspaces of \(V\)
+When:
+\begin{align}
+    W \cap U & = \{ 0 \} \\
+    W \cup U & = V
+\end{align}
+Then \(U\) and \(W\) are a direct sum of \(V\). It is denoted by
+\begin{equation}
+    V = U \oplus W
+\end{equation}
 \subsection{Span, (lineare Hülle)}
 Let \(V\) be a vector space ofer a field \(F\) and \(S\) a finite subset of \(V\) wiht length \(n\). The span of \(S\) is the set of vectors that can be created by linear combinations with the vectors in \(S\).
 \begin{equation}
@@ -362,47 +373,47 @@ The dimension of the kernel is called the \textbf{nullity}.
             0 \\ 0
         \end{bmatrix} \\
     \end{align*}
-\begin{example}
-    
-\end{example}
+    \begin{example}
+
+    \end{example}
     \section{Rank-Nullity theorem}
-If \(L : V \rightarrow W\) is a linear tranformation then it.
-\begin{equation}
-  \rank L + \nullity T = \dim (image T) + \dim(\ker(T)) = \dim(V)
-\end{equation}
-\begin{example}
-   \begin{align*}
-      L &: \begin{bmatrix}
-          1 & 0 \\ 0 & 1
-      \end{bmatrix} x = y\\
-      image T  &= \mathbb{R}^2 \\ 
-      \rank L &= 2 \\
-      \ker T &= \{ \begin{bmatrix}
-         0 \\ 0 
-      \end{bmatrix} \} \\
-      \nullity L &= 0\\
-      \dim V &= \rank L + \nullity T = 2 +0 = 2
-   \end{align*} 
-\end{example}
-\begin{example}
-    \begin{align*}
-    L &: \begin{bmatrix}
-        1 & 2  & 4 \\ 2 & 4 & 8
-    \end{bmatrix} x = y \\
-    imag L &= \setb{
-\begin{bmatrix}
-   c \\ 2 c
-\end{bmatrix}
-    }{c \in \mathbb{R}}
-    \end{align*}
-    \begin{align*}
-    \rank L = 1 \\
-    \ker L = \setb{
-        \begin{bmatrix}
-           -2 c_1 - 4 c_2\\ c_1 \\  c_2
-        \end{bmatrix}
-           }{ c_1, c_2 \in \mathbb{R}}
-    \nullity A = 2
-    \end{align*}
-\end{example}
+    If \(L : V \rightarrow W\) is a linear tranformation then it.
+    \begin{equation}
+        \rank L + \nullity T = \dim (image T) + \dim(\ker(T)) = \dim(V)
+    \end{equation}
+    \begin{example}
+        \begin{align*}
+            L          & : \begin{bmatrix}
+                1 & 0 \\ 0 & 1
+            \end{bmatrix} x = y \\
+            image T    & = \mathbb{R}^2                     \\
+            \rank L    & = 2                                \\
+            \ker T     & = \{ \begin{bmatrix}
+                0 \\ 0
+            \end{bmatrix} \} \\
+            \nullity L & = 0                                \\
+            \dim V     & = \rank L + \nullity T = 2 +0 = 2
+        \end{align*}
+    \end{example}
+    \begin{example}
+        \begin{align*}
+            L      & : \begin{bmatrix}
+                1 & 2 & 4 \\ 2 & 4 & 8
+            \end{bmatrix} x = y \\
+            imag L & = \setb{
+                \begin{bmatrix}
+                    c \\ 2 c
+                \end{bmatrix}
+            }{c \in \mathbb{R}}
+        \end{align*}
+        \begin{align*}
+            \rank L = 1 \\
+            \ker L = \setb{
+                \begin{bmatrix}
+                    -2 c_1 - 4 c_2 \\ c_1 \\  c_2
+                \end{bmatrix}
+            }{ c_1, c_2 \in \mathbb{R}}
+            \nullity A = 2
+        \end{align*}
+    \end{example}
 \end{example}

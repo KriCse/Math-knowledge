@@ -52,7 +52,7 @@ The dimension of the column and rowspace are always equal.
         \begin{bmatrix}
                 c \\ 2c \\ 4c
             \end{bmatrix}}{c \in \mathbb{R}} \\
-        \dim C(A) & = \dim C(A^T) = 1                 \\
+        \dim C(A) & = \dim C(A^T) = 1                \\
     \end{align*}
 \end{example}
 \subsubsection{Rank}
@@ -196,7 +196,7 @@ A cofactor \( C_{ij} \) is obtained by multiplying the minor \( M_{ij} \) by \( 
         M_{32} & = det(\begin{bmatrix}
             1 & 4 \\
             3 & 6 \\
-        \end{bmatrix}) = -6 &
+        \end{bmatrix}) = -6  &
         M_{33} & = det(\begin{bmatrix}
             1 & 2 \\
             4 & 5 \\
@@ -269,9 +269,9 @@ The determinant of a 3x3 Matrix can be calculated using its minors.
         \end{bmatrix}}+ x_3 \cdot \determinant{\begin{bmatrix}
             x_4 & x_5 \\
             x_7 & x_8 \\
-        \end{bmatrix}}                                  \\
-                                              & = x_1 (x_5x_9 - x_6 x_8) - x_2 (x_4 x_9 - x_6 x_7) + x_3 (x_4 x_8 - x_5 x_7)        \\
-                                              & = x_1 x_5 x_9 + x_2 x_6 x_7 + x_3 x_4 x_8 - x_3 x_5 x_7 - x_2 x_4 x_9 - x_1 x_6 x_8
+        \end{bmatrix}}                                   \\
+                                             & = x_1 (x_5x_9 - x_6 x_8) - x_2 (x_4 x_9 - x_6 x_7) + x_3 (x_4 x_8 - x_5 x_7)        \\
+                                             & = x_1 x_5 x_9 + x_2 x_6 x_7 + x_3 x_4 x_8 - x_3 x_5 x_7 - x_2 x_4 x_9 - x_1 x_6 x_8
 \end{align*}
 For higher order matrices you can apply this method recursively.
 \begin{example}
@@ -300,7 +300,7 @@ Singular matrices have rows and/or columns that are not linearly independent.
     \begin{align*}
         A               & = \begin{bmatrix}
             1 & 2 \\ -2 & -4
-        \end{bmatrix}     \\
+        \end{bmatrix}      \\
         \determinant{A} & = 1 \cdot (-4) - (-2) \cdot 2 = 0
     \end{align*}
 \end{example}
@@ -321,10 +321,10 @@ An eigenvector \( v \) of a square matrix \(A\) is a nonzero vector that changes
     \begin{align*}
         A         & = \begin{bmatrix}
             5 & 1 \\ 0 & 3
-        \end{bmatrix}                                                                 \\
+        \end{bmatrix}                                                               \\
         v         & = \begin{bmatrix}
             1 \\ 0
-        \end{bmatrix}, \lambda = 5                                                    \\
+        \end{bmatrix}, \lambda = 5                                                  \\
         A \cdot v & = \begin{bmatrix}
             5 & 1 \\ 0 & 3
         \end{bmatrix} \cdot \begin{bmatrix}
@@ -358,16 +358,20 @@ The characteristic polynomial \( P_{A}\) of a matrix \(A\) is defined as:
 \begin{equation}
     P_A(t) = \determinant{A - t I}
 \end{equation}
-If a square matrix A with \( \dim(A) = n \times n \) then \(p_A(t)\) will have a degree of \(n\).
+If a square matrix A with \( \dim(A) = n \times n \) then \(p_A(t)\) will have a degree of \(n\). The characteristic polynomial is always monic (the leading coefficient is 1)
 \begin{example}\label{eigenexample}
     \begin{align*}
         A      & = \begin{bmatrix}
             5 & 7 \\ 11 & 3
-        \end{bmatrix}                                                                   \\
+        \end{bmatrix}                                                                    \\
         p_A(t) & = \determinant{\begin{bmatrix}
                 5 - t & 7 \\ 11 & 3 -t
-            \end{bmatrix}} = (5 - t) \cdot (3 - t) - 7 \cdot 11 = t^2 - 8 - 62
+            \end{bmatrix}} = (5 - t) \cdot (3 - t) - 7 \cdot 11 = t^2 - 8t - 62
     \end{align*}
+    Note for a \(2 \times 2 \) matrix \( p_A(t) \) is always:
+    \begin{equation}
+        p_A(t) = t^2 - \trace(A) t - \determinant{A}
+    \end{equation}
 \end{example}
 \begin{matlab}
     \apilink{charpoly}{https://www.mathworks.com/help/symbolic/sym.charpoly.html}
@@ -377,6 +381,30 @@ If a square matrix A with \( \dim(A) = n \times n \) then \(p_A(t)\) will have a
          1    -8   -62
    \end{lstlisting}
 \end{matlab}
+If  A gets pluged into \(p_A(t)\) then the result will be the zero-matrix.
+\begin{equation}
+    P_a(A) = A^n + b_2 A^{n-1} \cdots b_{n-1} A + b_n I = 0 \\
+\end{equation}
+\begin{example}
+    From previous example.
+    \begin{gather*}
+        p_A(t) = t^2 - 8t - 62 \\
+        p_A(A) =  \begin{bmatrix}
+            5 & 7 \\ 11 & 3
+        \end{bmatrix}^2  - \begin{bmatrix}
+            5 & 7 \\ 11 & 3
+        \end{bmatrix} - 62 I \\
+        = \begin{bmatrix}
+            102 & 56 \\ 88 & 86
+        \end{bmatrix} - \begin{bmatrix}
+            40 & 56 \\ 88 & 24
+        \end{bmatrix} - \begin{bmatrix}
+            62 & 0 \\ 0 & 62
+        \end{bmatrix} = \begin{bmatrix}
+            0 & 0 \\ 0 & 0
+        \end{bmatrix}
+    \end{gather*}
+\end{example}
 \subsubsection{Characteristic equation}
 The roots of the characteristic polynomial are the eigenvalues \(\lambda_i \) of \(A\). The expression
 \begin{equation}
@@ -431,7 +459,7 @@ so the highest power $(t - \lambda_i)$ can have (simply said the number of times
     \end{align*}
 \end{example}
 For example $\mu_A(\lambda_4) = 4$, because $(t - 4)$ divides $p_A(t)$ 4 times.
-\subsubsection{Eigenvectors}
+\subsubsection{Eigenvectors, eigenspace}
 To find the eigenvector of an associatited eigenvalue we need to find the kernel of the following linear map:
 \begin{align*}
     L:  (A - \lambda_i \cdot I) x = y \\
@@ -441,14 +469,14 @@ Since the kernel of a tranformation forms a vectorspace  \( \epsilon \) called \
 \begin{align*}
     v_1, v_2 \in \epsilon_i, c \in \mathbb{F} \\
     v_1 + v_2 \in \epsilon_i                  \\
-    c \cdot v_1 \in \epsilon                  \\
+    c \cdot v_1 \in \epsilon_i                \\
 \end{align*}
 \begin{example}
     Continuing  example \ref{eigenexample}.
     \begin{align*}
         A & = \begin{bmatrix}
             3 & 7 \\ 2 & 5
-        \end{bmatrix}                     \\                                                                                                                                                  \\
+        \end{bmatrix}                      \\                                                                                                                                                  \\
         \lambda_1 = 4 - \sqrt{15},  \lambda_2 = 4 + \sqrt{15} \\
     \end{align*}
     \(\lambda_1\):
@@ -460,7 +488,7 @@ Since the kernel of a tranformation forms a vectorspace  \( \epsilon \) called \
             x_1 \\ x_2
         \end{bmatrix}= \begin{bmatrix}
             0 \\ 0
-        \end{bmatrix}                            \\
+        \end{bmatrix}                           \\
         \begin{bmatrix}
             -1 + \sqrt{15} & 7 \\ 2 & 1 + \sqrt{15}
         \end{bmatrix}\begin{bmatrix}
@@ -529,10 +557,10 @@ Since the kernel of a tranformation forms a vectorspace  \( \epsilon \) called \
     \end{align*}
     Solving for $x_1$, $x_2$:
     \begin{align*}
-        (-1-\sqrt{15}) x_1 + 7 x_2 & = 0                           \\
-        x_2                        & = \frac{1 + \sqrt{15}x_1}{7}  \\
-        x_1                        & = 7  \text{ (chosen)}         \\
-        x_2                        & = 1 + \sqrt{15}               \\
+        (-1-\sqrt{15}) x_1 + 7 x_2 & = 0                          \\
+        x_2                        & = \frac{1 + \sqrt{15}x_1}{7} \\
+        x_1                        & = 7  \text{ (chosen)}        \\
+        x_2                        & = 1 + \sqrt{15}              \\
         v_2                        & = \begin{bmatrix}
             7 \\ 1 + \sqrt{15}
         \end{bmatrix}
@@ -551,12 +579,18 @@ Since the kernel of a tranformation forms a vectorspace  \( \epsilon \) called \
     \end{lstlisting}
 \end{matlab}
 \subsubsection{Geometric multiplicity}
-The geometry multiplicity \(\gamma_A \) of an eigenvector is the dimension of the associatited eigenspace.
+The geometry multiplicity \(\gamma_A \) of an eigenvalue is the dimension of the associatited eigenspace.
+\begin{equation}
+    \gamma_a(\lambda_i) = \dim \ker\left(A - I \lambda_i \right)
+\end{equation}
 
-
-The geometry multiplicity of an eigenvector can't be largert than the arithmetic multiplicity.
+The geometry multiplicity of an eigenvalue can't be larger than the arithmetic multiplicity.
 \begin{equation}
     \gamma_A(\lambda_i) \leq \mu_a(\lambda_1)
+\end{equation}
+For a square Matrix \(A^{n \times n}\) with \(m\) eigenvalues it holds:
+\begin{equation}
+    \sum_{i=1}^{m} \gamma(\lambda_i) + \mu(\lambda_i) = n
 \end{equation}
 \begin{example}
     \begin{align*}
@@ -579,10 +613,11 @@ The geometry multiplicity of an eigenvector can't be largert than the arithmetic
     \end{align*}
 \end{example}
 \subsection{Similarity}\label{similiarity}
-Two square matrices $A$ and $B$ are similar when an if there exists an invertible $n \times n$ matrix U such that:
-\begin{equation}
-    A = U^{-1}BU
-\end{equation}
+Two square matrices $A$ and $B$ are similar when an if there exists an invertible $n \times n$ matrix P such that:
+\begin{gather}
+    A = P^{-1}BP \\
+    B = PAP^{-1}
+\end{gather}
 It is denoted as
 \begin{equation*}
     A \tilde{=} B
@@ -639,9 +674,204 @@ Similarity is an equivalence relation
         p_A(t)  & = (3 - t)(3 - t) - 4 \cdot \frac{1}{4} = t^2 - 6t + 8 \\
     \end{align*}
 \end{example}
+\subsection{Defective matrices}
+If there is one eigenvalue \(\lambda_i\) with \(\mu_A(\lambda_i) \neq \gamma_A(\lambda_i) \) then the corresponding Matrix \(A\) defective:
+\begin{itemize}
+    \item The matrix has less than \(n\) lienary independent eigenvectors
+    \item The sum of the dimesons of the eigensapces has a dimension less than \( n\)
+\end{itemize}
+The eigenvalue is called defective eigenvalue.
+\begin{example}
+    \begin{gather*}
+        A = \begin{bmatrix}
+            1 & 1 & 0 \\ 0 & 1 & 1 \\ 0 & 0 & 4
+        \end{bmatrix}\\
+        \lambda_1 = 1, \lambda_2 = 4\\
+        v_1 = \begin{bmatrix}
+            1 \\ 0 \\ 0
+        \end{bmatrix}, v_2 = \begin{bmatrix}
+            \frac{1}{9} \\ \frac{1}{3} \\ 1
+        \end{bmatrix}\\
+        \mu_A(\lambda_1) = 2 \neq \gamma_A(\lambda_1) = 1 \\
+    \end{gather*}
+\end{example}
+Defective matrices can't be diagonalized.
+\subsection{Geeralized eigenvectors}
+Let \(L : V \rightarrow V\) with a defective transformation matrix \(A\). A generalized eigenvector \(w\) of a defective eigenvalue is the solution of:
+\begin{equation}
+    \begin{split}
+        \left(A - \lambda I \right)^m w = 0\\
+        \left(A - \lambda I \right)^{m-1} w \neq 0 \\
+        m > 1, m \in \mathbb{N}\\
+    \end{split}
+\end{equation}
+\(m\) is called the rank of the generalized eigenvector.
+\subsubsection{Jordan chain}
+Let \(v\) be an ordinary eigenvector of \(A\):
+\begin{align*}
+    (A - \lambda I)v = 0         \\
+    (A - \lambda I)w_1 = v       \\
+    (A - \lambda I)w_2 = w_1     \\
+    (A - \lambda I)w_3 = w_2     \\
+    \vdots                       \\
+    (A - \lambda I)w_{n-1} = w_n \\
+\end{align*}
+\begin{example}
+    \begin{align*}
+        A = \begin{bmatrix}
+            3 & 2 & 0 \\ 0 & 3 & 4 \\  0 & 0 & 3
+        \end{bmatrix}
+    \end{align*}
+    The matrix has single eigenvalue \(\lambda = 3\) with \(\mu_a(3) = 3\) but only one eigenvector \(v_1\).
+    \begin{align*}
+        A - I \lambda = \begin{bmatrix}
+            0 & 2 & 0 \\ 0 & 0 & 4 \\  0 & 0 & 0
+        \end{bmatrix}                                                   \\
+        \begin{bmatrix}
+            0 & 2 & 0 \\ 0 & 0 & 4 \\  0 & 0 & 0
+        \end{bmatrix} v =  \begin{bmatrix}
+            0 \\ 0 \\ 0
+        \end{bmatrix}, v = \begin{bmatrix}
+            1 \\ 0 \\ 0
+        \end{bmatrix} \\
+        \begin{bmatrix}
+            0 & 2 & 0 \\ 0 & 0 & 4 \\  0 & 0 & 0
+        \end{bmatrix} w_1 =  \begin{bmatrix}
+            1 \\ 0 \\ 0
+        \end{bmatrix}, w_1 = \begin{bmatrix}
+            0 \\ \frac{1}{2} \\ 0
+        \end{bmatrix}
+    \end{align*}
+\end{example}
+\subsection{Shift matrix}
+A shift matrix that has 1 on its superdiagonal and 0 elsewhere.
+\begin{equation*}
+    S  = \begin{bmatrix}
+        0      & 1 & 0      & \cdots &        \\
+        \vdots & 0 & 1      & 0      & \cdots \\
+        \vdots &   & \ddots &        &        \\
+               &   &        & 0      & 1      \\
+               &   & \ddots & 0      & 0      \\
+    \end{bmatrix}
+\end{equation*}
+When multplied wiht another matrix \(A\) it shifts the columns of \(A\) by one to the right.
+\begin{align*}
+    A         & = \begin{bmatrix}
+        c_1 & c_2 & \cdots & c_{n -1} & c_n
+    \end{bmatrix} \\
+    A \cdot S & = \begin{bmatrix}
+        0 & c_2 & \cdots & c_{n -2} & c_{n - 1}
+    \end{bmatrix}
+\end{align*}
+\begin{example}
+    \begin{gather*}
+        \begin{bmatrix}
+            1 & 2 & 3 \\ 4 & 5 & 6 \\ 7 & 8 & 9
+        \end{bmatrix} \cdot \begin{bmatrix}
+            0 & 1 & 0 \\ 0 & 0 & 1 \\ 0 & 0 & 0
+        \end{bmatrix} = \begin{bmatrix}
+            0 & 1 & 2 \\ 0 & 4 & 5 \\ 0 & 7 & 8
+        \end{bmatrix}
+    \end{gather*}
+\end{example}
+\subsection{Nilpotent matrix}
+A matrix is nilpotent of degree k if
+\begin{gather*}
+    A^i \neq 0 \\
+    A^k = 0 \\
+    0 \leq i < k
+\end{gather*}
+\begin{example}
+    Let A be a Matrix containing only zeroers except on its superdiagonal. A is nilpotent of degree  \( k +1 \) where \(k\) is the number of nonzero element. An example
+    would be the shift matrix:
+    \begin{align*}
+        S^{1} = \begin{bmatrix}
+            0 & 1 & 0 \\ 0 & 0 & 1 \\ 0 & 0 & 0
+        \end{bmatrix}
+        S^{2} = \begin{bmatrix}
+            0 & 0 & 0 \\ 0 & 0 & 1 \\ 0 & 0 & 0
+        \end{bmatrix}
+        S^{3} = \begin{bmatrix}
+            0 & 0 & 0 \\ 0 & 0 & 0 \\ 0 & 0 & 0
+        \end{bmatrix}
+    \end{align*}
+\end{example}
+\begin{example}
+    Only the zero matrix is nilpotent with degree 1.
+\end{example}
+\begin{example}
+    A diagonal matrix is not nilpotent.
+    \begin{align*}
+        D = \begin{bmatrix}
+            2 & 0 \\ 0 & 4
+        \end{bmatrix} \\
+        D^n = \begin{bmatrix}
+            2^{n} & 0 \\ 0 & 4^{n}
+        \end{bmatrix}
+    \end{align*}
+\end{example}
+\subsection{Jordan normal form}
+\subsubsection{Jordan Block}
+A jordan block is a square matrix with the same value for each element on its main diagonal and 1 on it superdiagonal. The other elements are 0.
+\begin{equation*}
+    B_{\lambda}  = \begin{bmatrix}
+        \lambda & 1       & 0      & \cdots  &         \\
+        0       & \lambda & 1      & 0       & \cdots  \\
+        \vdots  &         & \ddots &         &         \\
+                &         &        & \lambda & 1       \\
+                &         & \ddots & 0       & \lambda \\
+    \end{bmatrix}
+\end{equation*}
+
+\subsubsection{Jordan box}
+Let \(lambda\) be an eigenvalue of \(A\) with \(\mu(\lambda) = n\) and \( \gamma_a(\lambda) = m \).
+A Jordan box is the direct sum of
+\begin{equation}
+    J_{\lambda} = D_{\lambda} \oplus B_{\lambda}
+\end{equation}
+where:
+\begin{gather*}
+    \dim J_{\lambda} = n \\
+    \dim D_{\lambda} = m \\
+    \dim B_{\lambda} = n - m \\
+\end{gather*}
+\begin{example}
+    \begin{gather*}
+        \mu(\lambda) = 4, \gamma(\lambda) = 2 \\
+        D_{\lambda} = \begin{bmatrix}
+            \lambda
+        \end{bmatrix}
+        B_{\lambda} = \begin{bmatrix}
+            \lambda & 1 & 0 \\ 0 & \lambda & 1 \\ 0 & 0 & \lambda
+        \end{bmatrix} \\
+        J_{\lambda} = \begin{bmatrix}
+            \lambda & 0       & 0       & 0       \\
+            0       & \lambda & 1       & 0       \\
+            0       & 0       & \lambda & 1       \\
+            0       & 0       & 0       & \lambda \\
+        \end{bmatrix}
+    \end{gather*}
+\end{example}
+\begin{example}
+    \begin{gather*}
+        \mu(\lambda) = 4, \gamma(\lambda) = 3 \\
+        D_{\lambda} = \begin{bmatrix}
+            \lambda & 0 \\  0 & \lambda
+        \end{bmatrix}
+        B_{\lambda} = \begin{bmatrix}
+            \lambda & 1 \\ 0 & \lambda
+        \end{bmatrix} \\
+        J_{\lambda} = \begin{bmatrix}
+            \lambda & 0       & 0       & 0       \\
+            0       & \lambda & 0       & 0       \\
+            0       & 0       & \lambda & 1       \\
+            0       & 0       & 0       & \lambda \\
+        \end{bmatrix}
+    \end{gather*}
+\end{example}
 \section{Operations}
 \subsection{Transposing}
-Transpose of a matrix \(A\) is an operator which flips a matrix over its diagonal; that is, it switches the row and column indices of the matrix A by producing another matrix, often denoted by $A^T$.
+Transpose of a matrix \( A \) is an operator which flips a matrix over its diagonal; that is, it switches the row and column indices of the matrix A by producing another matrix, often denoted by $A^T$.
 \begin{example}
     \begin{align*}
         \begin{bmatrix}
@@ -678,35 +908,282 @@ Notice the diagonal elements do not get swaped by transposing. So for any diagon
     3     6
     \end{lstlisting}
 \end{matlab}
-\subsubsection{Solving for eigenvalues and eigenvectors}
-\begin{example}
-    \begin{align*}
-        A      & = \begin{bmatrix}
-            3 & 7 \\ 2 & 5
-        \end{bmatrix}                                                 \\                                                                                                                                                  \\
-        p_A(t) & = \det(A - t I)  = \determinant{\begin{bmatrix}
-                3 - t & 7 \\2  & 5 - t
-            \end{bmatrix}} =  t^2 - 8 t + 1 \\
-    \end{align*}
-    We get the eigenvalues by setting \(p_A(\lambda) = 0\) and solving for \( \lambda \)
-    \begin{align*}
-        \lambda^2 - 8 \lambda + 1 = 0                                           \\
-        \lambda_{12} = -\frac{-8}{2} \pm \sqrt{\left( \frac{-8}{2}\right)^2 -1} \\
-        \lambda_1 = 4 - \sqrt{15},  \lambda_2 = 4 + \sqrt{15}                   \\
-    \end{align*}
-\end{example}
+\subsection{Direct sum}
+The direct sum of two matrixes \(A^{a \times b}\) and \(B^{c \times d}\) is defined as
+\begin{equation}
+    \begin{split}
+        C = A \oplus B = \begin{bmatrix}
+            A & N_1 \\ N_2 & B
+        \end{bmatrix} \\
+        \dim C = (a + c) \times (b + d)
+    \end{split}
+\end{equation}
+\(N_1\) and \(N_2\) are zero matrices with dimensons \(\dim N_1 = b\)
 \subsection{Diagonalisation}
 A matrix $A$ is diagonalizabe if $A$ is similar (see \ref{similiarity}) to a diagonal matrix $D$.
 \begin{equation*}
-    A = U^{-1}DU
+    D = U^{-1}AU \\
 \end{equation*}
-\subsubsection{Eigenbase}
+\subsubsection{Eigendecomposition}
 A  matrix can be diagonalized using its eigenvalues and eigenvectors.
-D is a diagonal matrix containing the eigenvalues $\lambda_i$ on it main diagonal:
-The the bases eigenspaces $\epsilon_i$ form a base called \textbf{eigenbase} (when the arithmetic multiplicity of an eigenvalue is 1 then $\epsilon$ is just the eigenvector).
+D is a diagonal matrix containing the eigenvalues $\lambda_i$ on it main diagonal.
+The the eigenspaces $\epsilon_i$ form a base called \textbf{eigenbase} (when the arithmetic multiplicity of an eigenvalue is 1 then $\epsilon$ is just the eigenvector).
 So change of base matrix $U$ has the base vectors of the eigenspaces as it's columns.
 \begin{equation}
+    A = U D U^{-1} \\
+\end{equation}
+\begin{equation}
     U = \begin{bmatrix}
-        \epsilon_1(\lambda_1) & \epsilon_2(\lambda_2) & \dots & \epsilon_i(\lambda_i)
+        v_1 & v_2 \cdots v_n
     \end{bmatrix}
 \end{equation}
+\begin{example}
+    \begin{equation*}
+        A = \begin{bmatrix}
+            3 & 0 & 1 \\ 0 & 2 & 0  \\ 5 & 0 & -1
+        \end{bmatrix}
+    \end{equation*}
+    The eigenvalues $\lambda_i$ and eigenvectors $v_i$ are:
+    \begin{gather*}
+        \lambda_1 = 4, v_1 = \begin{bmatrix}
+            1 \\ 0 \\ 1
+        \end{bmatrix}  \\
+        \lambda_2 = -2, v_2 = \begin{bmatrix}
+            -\frac{1}{5} \\ 0 \\ 1
+        \end{bmatrix} \\
+        \lambda_3 = 2, v_3 = \begin{bmatrix}
+            0 \\ 1 \\ 0
+        \end{bmatrix}  \\
+    \end{gather*}
+    We can construct U and D. Keep in mind that the order of the eigenvalues in the diagonal of $D$ must match the order of the order of eigenvector columns in $U$ (and $U^{-1}$).
+    \begin{align*}
+        D      & = \begin{bmatrix}
+            2 & 0 & 0 \\ 0 & 4 & 0 \\ 0 & 0 & -2
+        \end{bmatrix}  \\
+        U      & =  \begin{bmatrix}
+            -\frac{1}{5} & 0 & 1   \\
+            0            & 0 & 1 & \\
+            1            & 1 & 0   \\
+        \end{bmatrix} \\
+        U^{-1} & = \begin{bmatrix}
+            \frac{5}{6}   & 0 & \frac{1}{6} \\
+            - \frac{5}{6} & 0 & \frac{5}{6} \\
+            0             & 1 & 0
+        \end{bmatrix}
+    \end{align*}
+    The diagonalized A is:
+    \begin{equation*}
+        A = \begin{bmatrix}
+            -\frac{1}{5} & 0 & 1   \\
+            0            & 0 & 1 & \\
+            1            & 1 & 0   \\
+        \end{bmatrix} \begin{bmatrix}
+            2 & 0 & 0 \\ 0 & 4 & 0 \\ 0 & 0 & -2
+        \end{bmatrix}
+        \begin{bmatrix}
+            \frac{5}{6}   & 0 & \frac{1}{6} \\
+            - \frac{5}{6} & 0 & \frac{5}{6} \\
+            0             & 1 & 0
+        \end{bmatrix}     \end{equation*}
+    \begin{matlab}
+        \begin{lstlisting}
+    >> a = [3,0,1;0,2,0;5,0,-1]
+    >> [v, d] = eig(a)
+        v =
+            0.7071   -0.1961         0
+                0         0    1.0000
+            0.7071    0.9806         0
+        d =
+            4     0     0
+            0    -2     0
+            0     0     2
+    >> v*d*inv(v)
+            ans =
+                3.0000         0    1.0000
+                     0    2.0000         0
+                5.0000         0   -1.0000
+            
+
+   \end{lstlisting}
+    \end{matlab}
+    \subsection{Raising a matrix to the nth power using diagonalisation}
+    Using the definition of matrix multiplication a single squaring a matrix takes \(O(n^3)\) computation steps. Raising a matrix to the \(m\)th power would take \(O(m \cdot n^3)\) steps.
+    For any diagonal matrix it holds:
+    \begin{equation}
+        D^{m} = \begin{bmatrix}
+            x_{11}^{m} &            &        &            \\
+                       & x_{22}^{m} &        &            \\
+                       &            & \ddots &            \\
+                       &            &        & x_{nn}^{m}
+        \end{bmatrix}
+    \end{equation}
+    Using diagonalisation a more effcient calculation can be achieved:
+    \begin{gather*}
+        A = UDU^{-1} \\
+        A^2 = A \cdot A =  UD \cancel{U^{-1}  U} DU^{-1} = UD^2U^{-1} \\
+        A^3 = A^2 \cdot A = UD^2 \cancel{U^{-1} U} D U^{-1} = U D^3 U^{-1}  \\
+        \vdots \\
+        A^{n} = U D^n U^{-1}
+    \end{gather*}
+\end{example}
+\subsection{Matrix exponential}\label{sec:matrixexponent}
+The taylor series of the exponential functions is given as:
+\begin{equation}
+    e^{x} = \sum_{n=0}^{\infty} \frac{x^n}{n!} = 1 + x + \frac{x^2}{2} + \frac{x^3}{6} \cdots
+\end{equation}
+Using this definition you can define the matrix exponential:
+\begin{equation}
+    e^{A} = \sum_{n=0}^{\infty} \frac{A^n}{n!} = I + A + \frac{A^2}{2} + \frac{A^3}{6} \cdots
+\end{equation}
+\subsubsection{Diagonal Case}
+\begin{align*}
+    e^{D} & = I +
+    \begin{bmatrix}
+        x_{11} &        &        &        \\
+               & x_{22} &        &        \\
+               &        & \ddots &        \\
+               &        &        & x_{nn}
+    \end{bmatrix} + \frac{1}{2}
+    \begin{bmatrix}
+        x_{11}^{2} &            &        &            \\
+                   & x_{22}^{2} &        &            \\
+                   &            & \ddots &            \\
+                   &            &        & x_{nn}^{2}
+    \end{bmatrix}  + \frac{1}{6}
+    \begin{bmatrix}
+        x_{11}^{3} &            &        &            \\
+                   & x_{22}^{3} &        &            \\
+                   &            & \ddots &            \\
+                   &            &        & x_{nn}^{3}
+    \end{bmatrix} + \frac{1}{24}
+    \begin{bmatrix}
+        x_{11}^{4} &            &        &            \\
+                   & x_{22}^{4} &        &            \\
+                   &            & \ddots &            \\
+                   &            &        & x_{nn}^{4}
+    \end{bmatrix} + \cdots                                    \\
+          & = I + \begin{bmatrix}
+        x_{11} &        &        &        \\
+               & x_{22} &        &        \\
+               &        & \ddots &        \\
+               &        &        & x_{nn}
+    \end{bmatrix} +
+    \begin{bmatrix}
+        \frac{x_{11}^{2}}{2} &                      &        &                      \\
+                             & \frac{x_{22}^{2}}{2} &        &                      \\
+                             &                      & \ddots &                      \\
+                             &                      &        & \frac{x_{nn}^{2}}{2}
+    \end{bmatrix}  +
+    \begin{bmatrix}
+        \frac{x_{11}^{3}}{6} &                      &        &                      \\
+                             & \frac{x_{22}^{3}}{6} &        &                      \\
+                             &                      & \ddots &                      \\
+                             &                      &        & \frac{x_{nn}^{3}}{6}
+    \end{bmatrix} +
+    \begin{bmatrix}
+        \frac{ x_{11}^{4}}{24} &                       &        &                       \\
+                               & \frac{x_{22}^{4}}{24} &        &                       \\
+                               &                       & \ddots &                       \\
+                               &                       &        & \frac{x_{nn}^{4}}{24}
+    \end{bmatrix} + \cdots                                    \\
+          & = \begin{bmatrix}
+        \sum_{m=0}^{\infty} \frac{x_{11}^m}{m!} &                                         &        &                                         \\
+                                                & \sum_{m=0}^{\infty} \frac{x_{22}^m}{m!} &        &                                         \\
+                                                &                                         & \ddots &                                         \\
+                                                &                                         &        & \sum_{m=0}^{\infty} \frac{x_{22}^m}{m!}
+    \end{bmatrix}   =   \begin{bmatrix}
+        e^{x_{11}} &             &        &            \\
+                   & e^{x_{22} } &        &            \\
+                   &             & \ddots &            \\
+                   &             &        & e^{x_{nn}}
+    \end{bmatrix} \\
+\end{align*}
+\subsection{Diagonalizable case}
+If \(A\) is diagonalizabe with \(UDU^{-1}\) then:
+\begin{align*}
+    e^{A} & = \sum_{n=0}^{\infty} \frac{U D^n U^{-1}}{n!} = U I U^{-1} + \frac{U D U^{-1}}{n!}  + \frac{{U D^2 U^{-1}}}{2} + \frac{U D^3 U^{-1}}{6} \cdots \\
+          & = U^{-1} \left(\sum_{n=0}^{\infty} \frac{D^n}{n!}\right)U = U^{-1}e^DU                                                                         \\
+          & = U^{-1} \begin{bmatrix}
+        e^{\lambda_1} &                &        &               \\
+                      & e^{\lambda_2 } &        &               \\
+                      &                & \ddots &               \\
+                      &                &        & e^{\lambda_n}
+    \end{bmatrix} U                                                                                                         \\
+\end{align*}
+\begin{example}
+    \begin{gather*}
+        A = \begin{bmatrix}
+            3 & -4 \\ -5 & -5 \\
+        \end{bmatrix} \\
+        \lambda_1 = -7, v_1 = \begin{bmatrix}
+            \frac{2}{5} \\ 1
+        \end{bmatrix} \\
+        \lambda_2 = 5, v_2 = \begin{bmatrix}
+            -2 \\ 1
+        \end{bmatrix} \\
+        e^D =         \begin{bmatrix}
+            \frac{2}{5} & -2 \\ 1 & 1
+        \end{bmatrix}
+        \begin{bmatrix}
+            e^{-7} & 0 \\0 & e^5
+        \end{bmatrix}
+        \begin{bmatrix} \frac{5}{12} & \frac{5}{6} \\ \frac{-5}{12} & \frac{1}{6} \end{bmatrix}
+    \end{gather*}
+\end{example}
+\begin{matlab}
+    \apilink{expm}{https://www.mathworks.com/help/matlab/ref/expm.html}
+    \begin{lstlisting}
+     >> a = [3, -4; -5, -5]
+     >> expm(a)
+        ans =
+            123.6778  -49.4707
+            -61.8384   24.7363
+    \end{lstlisting}
+\end{matlab}
+\subsubsection{Comuting matrices}
+If two matrices \(A\) and \(B\) commute (\(AB = BA\)) then
+\begin{equation}
+    e^{A + B} = e^{A}e^{B}
+\end{equation}
+\subsubsection{Jordan bock}
+A Jordan block \(B_{\lambda}\) of size m can be separated into:
+\begin{equation}
+    B_{\lambda} = D_{\lambda} + S
+\end{equation}
+where \(S\) is the shift matrix (the shift matrix is nilpotent of degree \(m\)).
+\begin{align}
+    e^{B_\lambda} = e^{D_{\lambda} + S} =  e^{D_{\lambda}} \cdot e^{S} \tag{Note \(D_{\lambda} \) and S commute}
+\end{align}
+\begin{align*}
+     & =  e^{D_{\lambda}} \cdot e^{S} = e^{D_{\lambda}} \left( \sum_{n=0}^{m - 1} \frac{S^n}{n!} = I + S + \frac{S^2}{2} + \frac{S^3}{6} \cdots \right) \\
+     & =  e^{D_{\lambda}} \left(I + \begin{bmatrix} 0 & 1 & 0  &  0 & \cdots \\ 0 & 0 & 1 & 0 & \cdots \\ 0 & 0 & 0 & 1 & \cdots \\ \vdots & & & \end{bmatrix} +
+    \frac{1}{2} \begin{bmatrix} 0 & 0 & 1  &  0 & \cdots \\ 0 & 0 & 0 & 1 & \cdots \\ 0 & 0 & 0 & 0 & \cdots \\ \vdots & & & \end{bmatrix} + \cdots +
+    \frac{1}{(m-1)!} \begin{bmatrix} 0 &  \cdots & 0 & 1  \\ 0 & \cdots & & 0 \\  \vdots & & & \end{bmatrix}  \right)                                                                                               \\
+     & = e^{D_{\lambda}} \begin{bmatrix}
+        1      & 1 & \frac{1}{2} & \frac{1}{6} & \cdots & \frac{1}{(m -1)!} \\
+        0      & 1 & 1           & \frac{1}{2} & \cdots & \frac{1}{(m -2)!} \\
+        0      & 0 & 1           & 1           & \cdots & \frac{1}{(m -3)!} \\
+        \vdots &   &             &
+    \end{bmatrix} = \begin{bmatrix}
+        e^{\lambda} & e^{\lambda} & \frac{1}{2} e^{\lambda} & \frac{1}{6}  e^{\lambda} & \cdots & \frac{1}{(m-1)!}    e^{\lambda} \\
+        0           & e^{\lambda} & e^{\lambda}             & \frac{1}{2}  e^{\lambda} & \cdots & \frac{1}{(m-2)!}   e^{\lambda}  \\
+        0           & 0           & e^{\lambda}             & e^{\lambda}              & \cdots & \frac{1}{(m-3)!}   e^{\lambda}  \\
+        \vdots      &             &                         &
+    \end{bmatrix}
+\end{align*}
+\begin{example}
+    \begin{align*}
+        B_2 = \begin{bmatrix}
+            2 & 1 & 0 & 0 \\
+            0 & 2 & 1 & 0 \\
+            0 & 0 & 2 & 1 \\
+            0 & 0 & 0 & 2 \\
+        \end{bmatrix} \\
+        e^{B_2} = \begin{bmatrix}
+            e^{2} & e^{2} & \frac{1}{2} e^{2} & \frac{1}{6} e^{2} \\
+            0     & e^{2} & e^{2}             & \frac{1}{2} e^{2} \\
+            0     & 0     & e^{2}             & e^{2}             \\
+            0     & 0     & 0                 & e^{2}             \\
+        \end{bmatrix}
+    \end{align*}
+\end{example}
